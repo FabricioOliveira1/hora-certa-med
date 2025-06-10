@@ -5,24 +5,35 @@ import { useState } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import useTreatamentContext from "../components/context/useTreatmentContext";
 
-export default function AddTreatment({ screen }) {
+export default function AddTreatment() {
 
   const { onAddingTreatment } = useTreatamentContext()
 
-  const [treatmentName, setTreatmentName] = useState()
+  const [treatmentName, setTreatmentName] = useState('')
   const [treatmentInitialDate, setTreatmentInitialDate] = useState(new Date())
-  const [treatmentInterval, setTreatmentInterval] = useState()
-  const [treatmentAmount, setTreatmentAmount] = useState()
-
-
-  /* const [selectedDate, setSelectedDate] = useState(new Date()); */
+  const [treatmentInterval, setTreatmentInterval] = useState('')
+  const [treatmentAmount, setTreatmentAmount] = useState('')
+  const [currentDateLabel, setCurrentDateLabel] = useState(treatmentInitialDate.toLocaleString('pt-BR'))
   const [showPicker, setShowPicker] = useState(false);
+  const [alertEmptyField, setAlertEmptyField] = useState(false)
 
-  const onChange = (event, date) => {
-    setShowPicker(Platform.OS === 'ios'); // no iOS o picker permanece visível
-    if (date) {
-      setTreatmentInitialDate(date);
+  const onChange = ({ type }, date) => {
+    if (type === 'set') {
+      const currentDate = date
+      setTreatmentInitialDate(currentDate);
+      if (Platform.OS === 'android') {
+        setCurrentDateLabel(treatmentInitialDate.toLocaleString('pt-BR'))
+        toggleDatePicker()
+      } else {
+        toggleDatePicker()
+      }
+    } else if (type === 'dismissed') {
+      toggleDatePicker()
+      setCurrentDateLabel(treatmentInitialDate.toLocaleString('pt-BR'))
     }
+  }
+  const toggleDatePicker = () => {
+    setShowPicker(!showPicker);
   }
 
   const cleanFields = () => {
@@ -33,21 +44,25 @@ export default function AddTreatment({ screen }) {
   }
 
   const handleTreatmentData = () => {
-    /*  if (treatmentName === '' ||
-       treatmentInitialDate === '' ||
-       treatmentInterval === '' ||
-       treatmentAmount === '') {
-       return
-     } */
-    const newTreatment = {
-      name: treatmentName,
-      initialDate: treatmentInitialDate,
-      interval: treatmentInterval,
-      amount: treatmentAmount,
+
+    if (treatmentName === '' ||
+      treatmentInterval === '' ||
+      treatmentAmount === '') {
+      setAlertEmptyField(true)
+      return
+    } else {
+      const newTreatment = {
+        name: treatmentName,
+        initialDate: treatmentInitialDate,
+        interval: treatmentInterval,
+        amount: treatmentAmount,
+      }
+
+      onAddingTreatment(newTreatment)
+      setAlertEmptyField(false)
+      cleanFields()
+      router.navigate('./treatment')
     }
-    onAddingTreatment(newTreatment)
-    cleanFields()
-    router.navigate('./treatment')
   }
 
   return (
@@ -68,16 +83,24 @@ export default function AddTreatment({ screen }) {
               onChangeText={setTreatmentName}
               value={treatmentName} />
 
-            <Text style={styles.label}>Data de Inicio:</Text>           
-            <DateTimePicker
-              value={treatmentInitialDate}
-              mode="date"
-              display="default"
-              onChange={onChange}
-              style={styles.date}
-              locale="pt-BR"
-              onPress={() => setShowPicker(!showPicker)}
-            />
+            <Text style={styles.label}>Data de Inicio:</Text>
+
+            {showPicker &&
+              <DateTimePicker
+                value={treatmentInitialDate}
+                mode="date"
+                display="spinner"
+                onChange={onChange}
+                style={styles.date}
+                locale="pt-BR"
+              />
+            }
+
+            <Pressable onPress={toggleDatePicker}>
+              <Text style={styles.dateText}>
+                {currentDateLabel}
+              </Text>
+            </Pressable>
 
             <Text style={styles.label}>Quantas em quantas horas:</Text>
             <TextInput
@@ -90,8 +113,9 @@ export default function AddTreatment({ screen }) {
             <TextInput
               style={styles.input}
               onChangeText={setTreatmentAmount}
-              value={treatmentAmount} 
-              inputMode='numeric'/>
+              value={treatmentAmount}
+              inputMode='numeric' />
+            {alertEmptyField && <Text style={styles.alert}>Preencha os campos corretamente</Text>}
 
             <View style={styles.actions}>
               <Pressable
@@ -138,7 +162,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#009183',
     borderRadius: 10,
-    height: 30
+
   },
   actions: {
     alignItems: 'flex-end'
@@ -152,5 +176,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#009183',
     borderColor: '#009183',
     borderRadius: 10,
+  },
+  dateText: {
+    backgroundColor: '#009183',
+    borderRadius: 10,
+    fontSize: 18,
+    color: '#fff',
+    width: '60%',
+    padding: 2
+  },
+  alert: {
+    color: 'red',
+    fontSize: 18,
+    textAlign: 'right'
   }
 })

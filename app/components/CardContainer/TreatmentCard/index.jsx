@@ -17,7 +17,7 @@ return (
       Tomar de {tratamento.interval} em {tratamento.interval} horas.
     </Text>
     <Text>
-      Proxima Aplicação: {tratamento.nextAplication}
+      Proxima Aplicação: {tratamento.nextAplication.hour}
     </Text>
   </View>
 )

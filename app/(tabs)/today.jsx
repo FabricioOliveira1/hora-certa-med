@@ -4,20 +4,13 @@ import Header from "../components/Header";
 
 
 export default function Today() {
-
-   const medicine = [
-      {
-        id: 1,
-        title: 'Dipirona'
-      }
-    ]
-
+   
   return (
     <SafeAreaView style={styles.container}>
       <Header>
         Hoje
       </Header>
-      <CardContainer screen={'today'} treatment={medicine}/>
+      <CardContainer screen={'today'} />
     </SafeAreaView>
   )
 }

@@ -1,45 +1,51 @@
-
-
 function useHandleAplicationRoutine() {
-
   function handleAgenda(dataInicial, repeticoes, intervaloHoras) {
-
     const agenda = [];
 
     for (let i = 0; i < repeticoes; i++) {
-      const novaData = new Date(dataInicial.getTime());
-      novaData.setHours(novaData.getHours() + (i * intervaloHoras));
+      const novaData = new Date(dataInicial.getTime() + i * intervaloHoras * 60 * 60 * 1000);
 
-      // Formata como: dd/mm/yyyy - hh:mm AM/PM
-      /* const dia = novaData.getDate().toString().padStart(2, '0');
-      const mes = (novaData.getMonth() + 1).toString().padStart(2, '0');
-      const ano = novaData.getFullYear(); */
-
-      let horas = novaData.getHours();
+      const horas = novaData.getHours();
       const minutos = novaData.getMinutes().toString().padStart(2, '0');
-/*       const ampm = horas >= 12 ? 'PM' : 'AM';
- */      const horas12 = horas % 12 === 0 ? 12 : horas % 12;
+      const horas12 = horas % 12 === 0 ? 12 : horas % 12;
+      const ampm = horas >= 12 ? 'PM' : 'AM';
 
-      /* const horarioFormatado = `${dia}/${mes}/${ano} - ${horas12}:${minutos} ${ampm}`; */
-      const horarioFormatado = `${horas12}:${minutos}`; 
-      agenda.push(horarioFormatado);
+      const horarioFormatado = `${horas12}:${minutos} ${ampm}`;
+
+      agenda.push({
+        routineId: i + 1,
+        hour: horarioFormatado,
+        timestamp: novaData // salva também a data original para comparações
+      });
     }
+
     return agenda;
   }
 
   function handleNextRoutine(agenda) {
-    const aplicationRoutine = agenda.sort((a, b) => a.aplicationId - b.aplicationId);
-    const nextAplication = aplicationRoutine[0]
-    return (
-      nextAplication
-    )
+    const now = new Date();
+    const proxima = agenda.find(item => item.timestamp > now);
+
+    return proxima || null; // retorna null se todas já passaram
+  }
+
+  function todayList(datas) {
+    const hoje = new Date();
+    const dataHojeStr = hoje.toISOString().split('T')[0]; // "YYYY-MM-DD"
+
+    const datasDeHoje = datas.filter(data => {
+      const dataStr = data.timestamp.toISOString().split('T')[0];
+      return dataStr === dataHojeStr;
+    });
+
+    return datasDeHoje;
   }
 
   return {
-   handleAgenda,
-   handleNextRoutine
-  }
+    handleAgenda,
+    handleNextRoutine,
+    todayList
+  };
 }
+
 export default useHandleAplicationRoutine;
-
-

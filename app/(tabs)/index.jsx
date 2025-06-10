@@ -3,6 +3,8 @@ import { Image, Pressable, SafeAreaView, StyleSheet, Text } from "react-native";
 
 export default function Index() {
 
+
+
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require("../../assets/images/logo-128px.png")} />
