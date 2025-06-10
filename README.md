@@ -1,50 +1,100 @@
-# Welcome to your Expo app 👋
+# 💊 Hora Certa Med
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> Uma agenda inteligente para o gerenciamento e organização do uso de medicamentos controlados.
 
-## Get started
+## 📱 Visão Geral
 
-1. Install dependencies
+O **Hora Certa Med** é um aplicativo mobile desenvolvido em **React Native (Expo)** e integrado com **Firebase**. Ele permite aos usuários:
 
-   ```bash
-   npm install
-   ```
+✅ Adicionar e gerenciar medicamentos controlados  
+✅ Organizar o uso diário de medicamentos  
+✅ Visualizar um **dashboard** com os próximos medicamentos do dia  
+✅ Acessar um **histórico de uso** detalhado  
+✅ Gerenciar a lista de tratamentos de forma prática e intuitiva  
 
-2. Start the app
+🎨 O projeto utiliza uma paleta clean e funcional, com **predominância da cor principal: `#009183`**.
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 🚀 Tecnologias Utilizadas
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Expo** e **React Native**  
+- **Firebase** (para autenticação e armazenamento)  
+- **Context API** para gerenciamento de estado global  
+- **Hooks customizados** para rotinas e dados dinâmicos  
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## ⚙️ Instalação
 
-When you're ready, run:
+Clone o repositório e instale as dependências:
 
-```bash
-npm run reset-project
-```
+\`\`\`bash
+git clone https://github.com/FabricioOliveira1/hora-certa-med.git
+cd hora-certa-med
+npm install
+\`\`\`
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Inicie o projeto com:
 
-## Learn more
+\`\`\`bash
+expo start
+\`\`\`
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 📁 Estrutura do Projeto
 
-## Join the community
+\`\`\`
+hora-certa-med/
+├── app/                  # Componentes e rotas principais
+│   ├── (tabs)/           # Navegação principal por abas
+│   ├── components/       # Componentes reutilizáveis
+│   ├── context/          # Contexto global (ex.: TreatmentProvider)
+│   ├── hooks/            # Hooks customizados
+│   ├── assets/           # Fontes, ícones e imagens
+├── package.json          # Dependências
+├── app.json              # Configuração do Expo
+├── tsconfig.json         # Configuração TypeScript
+└── README.md
+\`\`\`
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🌟 Features Planejadas
+
+🚧 O projeto ainda está em desenvolvimento e algumas funcionalidades serão implementadas futuramente:
+
+- 🔔 **Notificações Push** para alertar sobre horários de medicamentos  
+- 📅 **Sincronização com calendário** do dispositivo   
+- 🔥 **Implementação completa do Firebase** para dados e autenticação  
+- 💊 **Melhorias na usabilidade e UX**
+
+---
+
+## 📸 Imagens
+
+<p align="center">
+  <img src="./assets/prints/hora-certa-med-print.jpg" alt="Tela de inicio" width="200"/>
+  <img src="./assets/prints/hora-certa-med-print-2.jpg" alt="Dashboard do Dia" width="200"/>
+  <img src="./assets/prints/hora-certa-med-print-3.jpg" alt="Tela de Tratamentos" width="200"/>
+  <img src="./assets/prints/hora-certa-med-print-4.jpg" alt="Adicionar Medicamentos" width="200"/>
+</p>
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.
+
+---
+
+## ✏️ Contato
+
+Desenvolvido por [Fabricio Oliveira](https://github.com/FabricioOliveira1)  
+Email: [fabricioliveira021@gmail.com]  
+LinkedIn: [https://www.linkedin.com/in/fabricioliveira-1/]
+
+---
+
+Feito com 💙 e foco em usabilidade!
