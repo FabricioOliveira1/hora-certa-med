@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import useGetGlobalTodayList from "../hooks/useGetTodayGlobalList";
 import useHandleAplicationRoutine from "../hooks/useHandleAplicationRoutine";
 
 export const TreatmentContext = createContext();
@@ -6,9 +7,15 @@ export const TreatmentContext = createContext();
 export default function TreatmentProvider({ children }) {
 
   const [treatment, setTreatment] = useState([]);
+  const [list, setList] = useState([])
 
-  const {handleAgenda, handleNextRoutine, todayList} = useHandleAplicationRoutine()
-  
+  const { getGlobalList } = useGetGlobalTodayList()
+  const { handleAgenda, handleNextRoutine, todayList } = useHandleAplicationRoutine()
+
+  useEffect(() => {
+    setList(getGlobalList(treatment))
+  }, [treatment])
+
   const onAddingTreatment = ({ name, initialDate, interval, amount }) => {
 
     const aplicationRoutine = handleAgenda(initialDate, amount, interval)
@@ -32,18 +39,37 @@ export default function TreatmentProvider({ children }) {
     })
   }
 
-  const onConsumingMedicine = ({id}) => {
-    console.log('treatment today: ', treatment[0].today)
-    console.log('treatment aplicationRoutine: ', treatment[0].aplicationRoutine)
-    console.log('id: ', id)
-  };
+  const onConsumingMedicine = ({ name, routineId }) => {
 
+    const updatedTreatments = treatment.map(item => {
+        if (item.name !== name) {
+          return item;
+        } else {
+
+          const updatedAplicationRoutine = item.aplicationRoutine.filter(element => element.routineId !== routineId)
+
+          return {
+            ...item,
+            amount: item.amount - 1,
+            aplicationRoutine: updatedAplicationRoutine,
+            nextAplication: handleNextRoutine(updatedAplicationRoutine),
+            today: todayList(updatedAplicationRoutine)
+          };
+        }
+
+      })
+
+      const treatmentfiltered = updatedTreatments.filter(item => item.amount > 0)
+      setTreatment(treatmentfiltered)
+  }
 
   return (
     <TreatmentContext.Provider value={{
       onAddingTreatment,
       onConsumingMedicine,
-      treatment
+      treatment,
+      setTreatment,
+      list
     }}>
       {children}
     </TreatmentContext.Provider>

@@ -8,6 +8,9 @@ export default function TabLayout() {
         <Tabs screenOptions={{
           tabBarActiveTintColor: '#009183',
           headerShown: false,
+          tabBarStyle: {
+            height: 80
+          }
         }}>
           <Tabs.Screen
             name="index"
@@ -16,9 +19,10 @@ export default function TabLayout() {
               tabBarIcon: ({ color }) => <FontAwesome size={28} name="check" color={color} />,
               tabBarStyle: {
                 display: 'none',
+
               },
               tabBarItemStyle: {
-                display: 'none'
+                display: 'none',
               }
             }}
           />

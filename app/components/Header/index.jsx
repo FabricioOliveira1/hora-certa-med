@@ -1,12 +1,12 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import ProfileContainer from './ProfileContainer';
 
-export default function Header({children}) {
+export default function Header({ children }) {
 
   return (
     <View style={styles.header}>
-      <ProfileContainer/>
-      <View style={styles.headerContainer}>
+      <ProfileContainer />
+      <View style={styles.titleContainer}>
         <Image source={require('../../../assets/images/logo-24px.png')} />
         <Text style={styles.title}>
           {children}
@@ -24,16 +24,17 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     gap: 30,
   },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'start',
-    gap: 20,
-  },
   title: {
     color: "#fff",
     fontFamily: 'open-sans',
     fontSize: 24,
     fontWeight: 'bold'
   },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'start',
+    gap: 20,
+  },
+
 })

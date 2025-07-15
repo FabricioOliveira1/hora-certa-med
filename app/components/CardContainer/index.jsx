@@ -1,43 +1,49 @@
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import useTreatamentContext from "../context/useTreatmentContext";
 import useGetGlobalTodayList from "../hooks/useGetTodayGlobalList";
 import Card from "./Card";
 import NewRegisterButton from "./NewRegisterButton";
 import TreatmentCard from "./TreatmentCard";
 
-export default function CardContainer({ screen }) {
+export default function CardContainer({ screen, treatment }) {
 
-  const { treatment } = useTreatamentContext()
+  const [list, setList] = useState([])
 
   const { getGlobalList } = useGetGlobalTodayList()
-  const list = getGlobalList()
 
-  if(list.length === 0) {
-     return (
-    <View style={styles[`${screen}`]}>
-      <View style= {styles.nullContainer}>
-        <Text style= {styles.null}>Lista Vazia</Text>
-      </View>
-      <NewRegisterButton screen={screen}>
-        Adicionar novo tratamento
-      </NewRegisterButton>
-    </View>
-  )
-  } else {
+  useEffect(() => {
+    setList(getGlobalList(treatment)) 
+  }, [])
+
+  console.log('screen: ', screen)
+  
+
+  if (list.length === 0) {
     return (
-    <View style={styles[`${screen}`]}>
+      <View style={styles[`${screen}`]}>
+        <View style={styles.nullContainer}>
+          <Text style={styles.null}>Lista Vazia</Text>
+        </View>
+        <NewRegisterButton screen={screen}>
+          Adicionar novo tratamento
+        </NewRegisterButton>
+      </View>
+    )
+  } else {
+    return (<View style={styles[`${screen}`]}>
 
-      {screen === 'treatment' ?
-        treatment.map((tratamento) =>
-          <TreatmentCard key={tratamento.id} tratamento={tratamento}/>) :
-       list.map((item) => 
-           <Card key={item.id} item={item} />)
-      }
-      <NewRegisterButton screen={screen}>
-        Adicionar novo tratamento
-      </NewRegisterButton>
-    </View>
-  )
+        {screen === 'treatment' ?
+          treatment.map((tratamento) =>
+            <TreatmentCard key={tratamento.treatmentId} tratamento={tratamento} />) :
+          list.map((item) => (
+            <Card key={item.id} item={item} />)
+          )
+        }
+        <NewRegisterButton screen={screen}>
+          Adicionar novo tratamento
+        </NewRegisterButton>
+      </View>
+    )
   }
 
 }

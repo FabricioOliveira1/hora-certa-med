@@ -29,17 +29,18 @@ function useHandleAplicationRoutine() {
     return proxima || null; // retorna null se todas já passaram
   }
 
-  function todayList(datas) {
-    const hoje = new Date();
-    const dataHojeStr = hoje.toISOString().split('T')[0]; // "YYYY-MM-DD"
+function todayList(lista) {
+  const hoje = new Date();
 
-    const datasDeHoje = datas.filter(data => {
-      const dataStr = data.timestamp.toISOString().split('T')[0];
-      return dataStr === dataHojeStr;
-    });
-
-    return datasDeHoje;
-  }
+  return lista.filter(item => {
+    const dataItem = new Date(item.timestamp);
+    return (
+      dataItem.getFullYear() === hoje.getFullYear() &&
+      dataItem.getMonth() === hoje.getMonth() &&
+      dataItem.getDate() === hoje.getDate()
+    );
+  });
+}
 
   return {
     handleAgenda,

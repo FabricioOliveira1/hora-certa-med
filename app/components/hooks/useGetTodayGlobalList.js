@@ -1,30 +1,28 @@
-import useTreatamentContext from "../context/useTreatmentContext";
 
-function useGetGlobalTodayList() {
-  const { treatment } = useTreatamentContext()
-
-
-  function getGlobalList() {
+function useGetGlobalTodayList() {      
+  
+  function getGlobalList(treatment) {
     const todayList = []
-    
-    treatment.map((treatment) => {
-      const treatmentName = treatment.name;
-      const treatmentAmount = treatment.amount;
+
+    if (treatment.length !== 0){
+      treatment.map((item) => {
+      const treatmentName = item.name;
+      const treatmentAmount = item.amount;
       
-      treatment.today.map((today) => {
+       item.today.map((today) => {
         todayList.push({
-          id: Math.random().toString(36).substring(2),
+          routineId: today.routineId,
+          id: todayList.length + 1,
           name: treatmentName,
           amount: treatmentAmount,
           hour: today.hour
-        })
-      })
+        }) 
+      }) 
 
     })
+    }
     return todayList
-  }
-
-
+  } 
   return {
     getGlobalList
   }

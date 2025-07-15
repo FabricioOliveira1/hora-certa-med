@@ -1,13 +1,13 @@
+import { FontAwesome } from "@expo/vector-icons";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import useTreatamentContext from "../../context/useTreatmentContext";
 
 export default function Card({ item }) {
 
   const { onConsumingMedicine } = useTreatamentContext()
-  console.log('item: ', item)
-
+  
   return (
-    <Pressable onPress={() => onConsumingMedicine(item)}>
+    <View >
       <View style={styles.container}>
         <Text style={styles.text}>{item.hour}</Text>
         <View style={styles.info}>
@@ -16,9 +16,12 @@ export default function Card({ item }) {
             <Text style={styles.title}>{item.name}</Text>
             <Text style={styles.text}>{`${item.amount} unidades restantes`}</Text>
           </View>
+          <Pressable onPress={() => onConsumingMedicine(item)} style={styles.checkButton}>
+            <FontAwesome size={28} name="check" color={'#fff'} />
+          </Pressable>
         </View>
       </View>
-    </Pressable>
+    </View>
   )
 }
 
@@ -50,5 +53,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     color: '#009183'
+  },
+  checkButton: {
+    backgroundColor: '#009183',
+    borderRadius: 50,
+    padding: 10,
+    marginRight: 10
   }
 })

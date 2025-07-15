@@ -1,15 +1,37 @@
-import { SafeAreaView, StyleSheet } from "react-native";
-import CardContainer from "../components/CardContainer";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import NewRegisterButton from "../components/CardContainer/NewRegisterButton";
+import TreatmentCard from "../components/CardContainer/TreatmentCard";
 import Header from "../components/Header";
+import useTreatamentContext from "../components/context/useTreatmentContext";
 
 export default function Tratamentos() {
+
+  const { treatment } = useTreatamentContext()
 
   return (
     <SafeAreaView style={styles.container}>
       <Header>
-        Tratamentos
-      </Header>  
-      <CardContainer screen={'treatment'}/>
+        Remédios
+      </Header>
+      {treatment.length === 0 ?
+        <View style={styles.cardContainer}>
+          <View style={styles.nullContainer}>
+            <Text style={styles.null}>Lista Vazia</Text>
+          </View>
+          <NewRegisterButton screen={'treatment'}>
+            Adicionar novo tratamento
+          </NewRegisterButton>
+        </View>
+        :
+        <View style={styles.cardContainer}>
+          {treatment.map((tratamento) =>
+            <TreatmentCard key={tratamento.treatmentId} tratamento={tratamento} />)
+          }
+          <NewRegisterButton screen='treatment'>
+            Adicionar novo tratamento
+          </NewRegisterButton>
+        </View>
+      }
     </SafeAreaView>
   )
 }
@@ -20,38 +42,21 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'space-between'
   },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    backgroundColor: "#fff",
-    borderRadius: 36,
-  },
-  text: {
-    fontSize: 24,
-  },
   cardContainer: {
     backgroundColor: '#CCCCCC',
     flex: 1,
     position: 'relative',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingBlock: 20,
-    paddingHorizontal: 20,
     gap: 8
   },
-  floatButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10
+  null: {
+    fontSize: 24,
+    textAlign: 'center',
+    color: '#6a6969'
   },
-  footer: {
-    backgroundColor: '#009183',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 30
-  },
-  textFooter: {
-    color: '#fff',
-    fontSize: 16
+  nullContainer: {
+    height: '100%',
+    justifyContent: 'center'
   }
 })

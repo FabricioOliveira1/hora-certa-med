@@ -1,19 +1,46 @@
-import { SafeAreaView, StyleSheet } from "react-native";
-import CardContainer from "../components/CardContainer";
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import Card from "../components/CardContainer/Card";
+import NewRegisterButton from "../components/CardContainer/NewRegisterButton";
 import Header from "../components/Header";
+import useTreatamentContext from "../components/context/useTreatmentContext";
 
 
 export default function Today() {
-   
+
+  const { list } = useTreatamentContext()
+
   return (
     <SafeAreaView style={styles.container}>
       <Header>
         Hoje
       </Header>
-      <CardContainer screen={'today'} />
+      {list.length === 0 ?
+        <View style={{ flex: 1 }}>
+          <View style={styles.cardContainer}>
+            <View style={styles.nullContainer}>
+              <Text style={styles.null}>Lista Vazia</Text>
+            </View>
+            <NewRegisterButton screen='today'>
+              Adicionar novo tratamento
+            </NewRegisterButton>
+          </View>
+        </View>
+        :
+        
+          <FlatList
+            bounces={false}
+            style={styles.listContainer}
+            data={list}
+            renderItem={({ item }) => <Card key={item.id} item={item} />}
+            keyExtractor={item => item.id}
+            ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+          />
+        
+      }
     </SafeAreaView>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -21,38 +48,34 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'space-between'
   },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    backgroundColor: "#fff",
-    borderRadius: 36,
-  },
-  text: {
-    fontSize: 24,
-  },
   cardContainer: {
     backgroundColor: '#CCCCCC',
     flex: 1,
     position: 'relative',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingBlock: 20,
-    paddingHorizontal: 20,
+    paddingBlock: 10,
+    paddingHorizontal: 10,
     gap: 8
   },
-  floatButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10
+  listContainer: {
+    backgroundColor: '#CCCCCC',
+    position: 'relative',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+    gap: 8,
+    flex: 1,
   },
-  footer: {
-    backgroundColor: '#009183',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 30
+  null: {
+    fontSize: 24,
+    textAlign: 'center',
+    color: '#6a6969'
   },
-  textFooter: {
-    color: '#fff',
-    fontSize: 16
+  nullContainer: {
+    height: '100%',
+    justifyContent: 'center'
   }
+
 })
