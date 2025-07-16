@@ -26,16 +26,21 @@ export default function Today() {
           </View>
         </View>
         :
-        
+        <View style={{flex: 1}}>
           <FlatList
             bounces={false}
             style={styles.listContainer}
             data={list}
-            renderItem={({ item }) => <Card key={item.id} item={item} />}
+            renderItem={({ item }) => <Card item={item} />}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+            ListFooterComponent={<View style={{ height: 80 }} />}
           />
-        
+          <NewRegisterButton screen='today'>
+              Adicionar novo tratamento
+            </NewRegisterButton>
+        </View>
+
       }
     </SafeAreaView>
   )
@@ -59,12 +64,11 @@ const styles = StyleSheet.create({
     gap: 8
   },
   listContainer: {
-    backgroundColor: '#CCCCCC',
+    backgroundColor: '#ccc',
     position: 'relative',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
+    padding: 10,
     gap: 8,
     flex: 1,
   },

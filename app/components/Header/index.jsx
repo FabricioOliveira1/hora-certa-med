@@ -1,11 +1,10 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import ProfileContainer from './ProfileContainer';
 
 export default function Header({ children }) {
 
   return (
     <View style={styles.header}>
-      <ProfileContainer />
+      {/* <ProfileContainer /> */}
       <View style={styles.titleContainer}>
         <Image source={require('../../../assets/images/logo-24px.png')} />
         <Text style={styles.title}>

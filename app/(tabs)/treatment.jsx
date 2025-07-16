@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import NewRegisterButton from "../components/CardContainer/NewRegisterButton";
 import TreatmentCard from "../components/CardContainer/TreatmentCard";
 import Header from "../components/Header";
@@ -24,9 +24,15 @@ export default function Tratamentos() {
         </View>
         :
         <View style={styles.cardContainer}>
-          {treatment.map((tratamento) =>
-            <TreatmentCard key={tratamento.treatmentId} tratamento={tratamento} />)
-          }
+          <FlatList
+            bounces={false}
+            style={styles.listContainer}
+            data={treatment}
+            renderItem={({ item }) => <TreatmentCard tratamento={item} />}
+            keyExtractor={tratamento => tratamento.treatmentId}
+            ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+            ListFooterComponent={<View style={{ height: 65 }} />}
+          />
           <NewRegisterButton screen='treatment'>
             Adicionar novo tratamento
           </NewRegisterButton>
@@ -43,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   cardContainer: {
-    backgroundColor: '#CCCCCC',
+    backgroundColor: '#ccc',
     flex: 1,
     position: 'relative',
     borderTopLeftRadius: 20,
@@ -58,5 +64,13 @@ const styles = StyleSheet.create({
   nullContainer: {
     height: '100%',
     justifyContent: 'center'
+  },
+  listContainer: {
+    backgroundColor: '#ccc',
+    position: 'relative',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    gap: 8,
+    flex: 1,
   }
 })

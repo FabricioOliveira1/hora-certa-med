@@ -63,12 +63,17 @@ export default function TreatmentProvider({ children }) {
       setTreatment(treatmentfiltered)
   }
 
+  const onDeleteTreatment = (id) => {
+    const updatedTreatment = treatment.filter(treatment => treatment.id !== id)
+    setTreatment(updatedTreatment)
+  }
+
   return (
     <TreatmentContext.Provider value={{
       onAddingTreatment,
       onConsumingMedicine,
+      onDeleteTreatment,
       treatment,
-      setTreatment,
       list
     }}>
       {children}

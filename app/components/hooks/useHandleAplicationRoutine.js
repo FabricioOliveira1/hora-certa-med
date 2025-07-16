@@ -5,17 +5,15 @@ function useHandleAplicationRoutine() {
     for (let i = 0; i < repeticoes; i++) {
       const novaData = new Date(dataInicial.getTime() + i * intervaloHoras * 60 * 60 * 1000);
 
-      const horas = novaData.getHours();
+      const horas = novaData.getHours().toString().padStart(2, '0');
       const minutos = novaData.getMinutes().toString().padStart(2, '0');
-      const horas12 = horas % 12 === 0 ? 12 : horas % 12;
-      const ampm = horas >= 12 ? 'PM' : 'AM';
 
-      const horarioFormatado = `${horas12}:${minutos} ${ampm}`;
+      const horarioFormatado = `${horas}:${minutos}`; // Formato 24 horas
 
       agenda.push({
         routineId: i + 1,
         hour: horarioFormatado,
-        timestamp: novaData // salva também a data original para comparações
+        timestamp: novaData
       });
     }
 
