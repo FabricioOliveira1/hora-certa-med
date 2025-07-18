@@ -33,7 +33,7 @@ export default function TretmentCard({ tratamento }) {
         <Pressable>
           <FontAwesome size={28} name="pencil" color={'#ccc'} />
         </Pressable>
-        <Pressable onPress={() => onDeleteTreatment(tratamento.id)
+        <Pressable onPress={() => onDeleteTreatment(tratamento.treatmentId)
         }>
           <FontAwesome size={28} name="trash-o" color={'#009183'} />
         </Pressable>

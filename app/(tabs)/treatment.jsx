@@ -7,7 +7,7 @@ import useTreatamentContext from "../components/context/useTreatmentContext";
 export default function Tratamentos() {
 
   const { treatment } = useTreatamentContext()
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <Header>

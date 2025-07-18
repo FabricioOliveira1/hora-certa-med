@@ -13,7 +13,7 @@ function useHandleAplicationRoutine() {
       agenda.push({
         routineId: i + 1,
         hour: horarioFormatado,
-        timestamp: novaData
+        timestamp: novaData,
       });
     }
 
