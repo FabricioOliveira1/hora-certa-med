@@ -1,4 +1,5 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import NewRegisterButton from "../components/CardContainer/NewRegisterButton";
 import TreatmentCard from "../components/CardContainer/TreatmentCard";
 import Header from "../components/Header";
@@ -9,7 +10,7 @@ export default function Tratamentos() {
   const { treatment } = useTreatamentContext()
   
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Header>
         Remédios
       </Header>

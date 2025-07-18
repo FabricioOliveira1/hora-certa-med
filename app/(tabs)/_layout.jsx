@@ -1,10 +1,12 @@
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TreatmentProvider from '../components/context/TreatmentProvider';
 
 export default function TabLayout() {
   return (
-    <TreatmentProvider>   
+    <SafeAreaProvider>
+      <TreatmentProvider>
         <Tabs screenOptions={{
           tabBarActiveTintColor: '#009183',
           headerShown: false,
@@ -80,6 +82,7 @@ export default function TabLayout() {
             }}
           />
         </Tabs>
-    </TreatmentProvider>
+      </TreatmentProvider>
+    </SafeAreaProvider>
   );
 }

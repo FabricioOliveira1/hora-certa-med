@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#009183',
     borderRadius: 10,
-
+    padding: 5
   },
   actions: {
     alignItems: 'flex-end'

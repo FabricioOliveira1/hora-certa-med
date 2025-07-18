@@ -1,4 +1,5 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Card from "../components/CardContainer/Card";
 import NewRegisterButton from "../components/CardContainer/NewRegisterButton";
 import Header from "../components/Header";
@@ -10,7 +11,7 @@ export default function Today() {
   const { list } = useTreatamentContext()
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Header>
         Hoje
       </Header>
@@ -50,8 +51,7 @@ export default function Today() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#009183',
-    height: '100%',
-    justifyContent: 'space-between'
+    flex: 1,
   },
   cardContainer: {
     backgroundColor: '#CCCCCC',
