@@ -29,7 +29,7 @@ O **Hora Certa Med** é um aplicativo mobile desenvolvido em **React Native (Exp
 
 Clone o repositório e instale as dependências:
 
-\`\`\`bash
+\`\`\`
 git clone https://github.com/FabricioOliveira1/hora-certa-med.git
 cd hora-certa-med
 npm install
@@ -37,29 +37,12 @@ npm install
 
 Inicie o projeto com:
 
-\`\`\`bash
+\`\`\`
 expo start
 \`\`\`
 
 ---
 
-## 📁 Estrutura do Projeto
-
-\`\`\`
-hora-certa-med/
-├── app/                  # Componentes e rotas principais
-│   ├── (tabs)/           # Navegação principal por abas
-│   ├── components/       # Componentes reutilizáveis
-│   ├── context/          # Contexto global (ex.: TreatmentProvider)
-│   ├── hooks/            # Hooks customizados
-│   ├── assets/           # Fontes, ícones e imagens
-├── package.json          # Dependências
-├── app.json              # Configuração do Expo
-├── tsconfig.json         # Configuração TypeScript
-└── README.md
-\`\`\`
-
----
 
 ## 🌟 Features Planejadas
 
@@ -67,7 +50,6 @@ hora-certa-med/
 
 - 🔔 **Notificações Push** para alertar sobre horários de medicamentos  
 - 📅 **Sincronização com calendário** do dispositivo   
-- 🔥 **Implementação completa do Firebase** para dados e autenticação  
 - 💊 **Melhorias na usabilidade e UX**
 
 ---

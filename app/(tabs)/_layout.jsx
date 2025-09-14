@@ -17,15 +17,39 @@ export default function TabLayout() {
           <Tabs.Screen
             name="index"
             options={{
-              title: 'index',
+              title: 'login',
               tabBarIcon: ({ color }) => <FontAwesome size={28} name="check" color={color} />,
               tabBarStyle: {
                 display: 'none',
-
               },
               tabBarItemStyle: {
                 display: 'none',
               }
+            }}
+          />
+          <Tabs.Screen
+            name="register"
+            options={{
+              title: '',
+              tabBarIcon: ({ color }) => <FontAwesome size={28} name="check" color={color} />,
+              tabBarStyle: {
+                display: 'none',
+              },
+              tabBarItemStyle: {
+                display: 'none',
+              },
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: '#009183',
+                borderWidth: 0
+              },
+              headerLeft: () =>
+                <Ionicons
+                  onPress={() => router.navigate('./')}
+                  size={28} name="arrow-back"
+                  color={'#fff'}
+                  style={{ marginLeft: 16 }} />
+              
             }}
           />
           <Tabs.Screen

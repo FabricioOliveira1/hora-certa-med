@@ -1,59 +1,61 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { doc, setDoc } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
-import useGetGlobalTodayList from "../hooks/useGetTodayGlobalList";
+import { Alert } from "react-native";
+import { auth, db } from "../../../firebaseConfig";
 import useHandleAplicationRoutine from "../hooks/useHandleAplicationRoutine";
+import getGlobalList from "../utils/getGlobalList";
+
 
 export const TreatmentContext = createContext();
 
 export default function TreatmentProvider({ children }) {
 
-  const TASKS_STORAGE_KEY = 'focus-tasks';
-
   const [treatment, setTreatment] = useState([]);
   const [list, setList] = useState([])
-  const [isLoaded, setIsLoaded] = useState(false)
 
-  const { getGlobalList } = useGetGlobalTodayList()
   const { handleAgenda, handleNextRoutine, todayList } = useHandleAplicationRoutine()
 
-
   useEffect(() => {
-    if (isLoaded) {
-      storeData(treatment);
-    }
+    sincronizaTratamentos(treatment)
     setList(getGlobalList(treatment))
+    console.log("treatment no useEffect do provider: ", treatment)
   }, [treatment])
 
-    useEffect(() => {
-    const fetchData = async () => {
-      const jsonValue = await AsyncStorage.getItem(TASKS_STORAGE_KEY);
-      const loadedData = jsonValue != null ? JSON.parse(jsonValue) : [];
-      setTreatment(loadedData);
-      setIsLoaded(true);
-    };
-    fetchData();
-  }, []);
-
-  const storeData = async (treatment) => {
+  async function sincronizaTratamentos(treatment) {
     try {
-      const jsonValue = JSON.stringify(treatment);
-      await AsyncStorage.setItem(TASKS_STORAGE_KEY, jsonValue);
+      // Verifica se o usuário está autenticado
+      const user = auth.currentUser;
+      if (!user || !treatment) {
+        return;
+      }
+      console.log("Sincronizando tratamentos com o Firestore:", treatment);
+      // A função setDoc cria ou substitui um documento em uma coleção específica
+      // Aqui estou criando um documento na coleção "users" com o ID do usuário autenticado
+      // A função doc(db, 'users', user.uid) cria uma referência para o documento do usuário
+      // O segundo argumento de setDoc é um OBJETO com os dados que queremos armazenar no documento
+      await setDoc(doc(db, 'users', user.uid), { treatment })
     } catch (e) {
-      // saving error
+      console.error("Erro ao buscar tratamentos: ", e);
     }
-  };
+  }
 
-  const onAddingTreatment = ({ name, initialDate, interval, amount }) => {
+  async function adicionarTratamento({ name, initialDate, interval, amount }) {
+    try {
+      // Verifica se o usuário está autenticado
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("Usuário não autenticado");
+      }
 
-    const aplicationRoutine = handleAgenda(initialDate, amount, interval)
-    const nextAplication = handleNextRoutine(aplicationRoutine)
-    const todaysList = todayList(aplicationRoutine)
+      const aplicationRoutine = handleAgenda(initialDate, amount, interval)
+      const nextAplication = handleNextRoutine(aplicationRoutine)
+      const todaysList = todayList(aplicationRoutine)
 
-    setTreatment(oldstate => {
-      return [
-        ...oldstate,
+      console.log("treatment antes de iterar: ", treatment)
+
+      const tratamento = [  ...treatment,
         {
-          treatmentId: oldstate.length + 1,
+          treatmentId: treatment.length + 1,
           name: name,
           initialDate: initialDate.toLocaleDateString('pt-BR'),
           interval: interval,
@@ -63,7 +65,14 @@ export default function TreatmentProvider({ children }) {
           today: todaysList
         }
       ]
-    })
+      console.log("treatment depois de iterar: ", tratamento)
+
+      setTreatment(tratamento)
+      Alert.alert("Adicionado com sucesso!");
+    } catch (e) {
+      Alert.alert("Não foi possível adicionar.");
+      console.error("Erro ao adicionar tratamento: ", e);
+    }
   }
 
   const onConsumingMedicine = ({ name, routineId }) => {
@@ -93,14 +102,14 @@ export default function TreatmentProvider({ children }) {
   const onDeleteTreatment = (id) => {
     const updatedTreatment = treatment.filter(treatment => treatment.treatmentId !== id)
     setTreatment(updatedTreatment)
-
   }
 
   return (
     <TreatmentContext.Provider value={{
-      onAddingTreatment,
       onConsumingMedicine,
       onDeleteTreatment,
+      adicionarTratamento,
+      setTreatment,
       treatment,
       list
     }}>

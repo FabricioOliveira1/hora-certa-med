@@ -1,7 +1,4 @@
-
-function useGetGlobalTodayList() {      
-  
-  function getGlobalList(treatment) {
+export default function getGlobalList(treatment) {
     const todayList = []
 
     if (treatment.length !== 0){
@@ -21,12 +18,5 @@ function useGetGlobalTodayList() {
 
     })
     }
-    return todayList
+    return todayList;
   } 
-  return {
-    getGlobalList
-  }
-
-}
-
-export default useGetGlobalTodayList;

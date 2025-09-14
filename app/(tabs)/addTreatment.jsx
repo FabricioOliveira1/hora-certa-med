@@ -7,7 +7,7 @@ import useTreatamentContext from "../components/context/useTreatmentContext";
 
 export default function AddTreatment() {
 
-  const { onAddingTreatment } = useTreatamentContext()
+  const { adicionarTratamento } = useTreatamentContext()
 
   const [treatmentName, setTreatmentName] = useState('')
   const [treatmentInitialDate, setTreatmentInitialDate] = useState(new Date())
@@ -57,8 +57,7 @@ export default function AddTreatment() {
         interval: treatmentInterval,
         amount: treatmentAmount,
       }
-
-      onAddingTreatment(newTreatment)
+      adicionarTratamento(newTreatment)
       setAlertEmptyField(false)
       cleanFields()
       router.navigate('./treatment')

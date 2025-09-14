@@ -1,22 +1,14 @@
-import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import useGetGlobalTodayList from "../hooks/useGetTodayGlobalList";
+import useTreatamentContext from "../context/useTreatmentContext";
 import Card from "./Card";
 import NewRegisterButton from "./NewRegisterButton";
 import TreatmentCard from "./TreatmentCard";
 
+
 export default function CardContainer({ screen, treatment }) {
 
-  const [list, setList] = useState([])
-
-  const { getGlobalList } = useGetGlobalTodayList()
-
-  useEffect(() => {
-    setList(getGlobalList(treatment)) 
-  }, [])
-
+  const { list } = useTreatamentContext()
   console.log('screen: ', screen)
-  
 
   if (list.length === 0) {
     return (
