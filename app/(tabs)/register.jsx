@@ -67,7 +67,7 @@ export default function RegisterScreen() {
             keyboardType="email-address"
             autoCapitalize="none"
           />
-          <Text style={styles.label}>Seu senha:</Text>
+          <Text style={styles.label}>Sua senha:</Text>
           <TextInput
             style={styles.input}
             placeholder="Senha"
