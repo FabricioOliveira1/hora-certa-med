@@ -1,10 +1,9 @@
 import { doc, setDoc } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { auth, db } from "../../../firebaseConfig";
+import { auth, db } from "../../firebaseConfig";
 import useHandleAplicationRoutine from "../hooks/useHandleAplicationRoutine";
 import getGlobalList from "../utils/getGlobalList";
-
 
 export const TreatmentContext = createContext();
 

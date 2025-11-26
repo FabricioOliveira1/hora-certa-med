@@ -2,10 +2,9 @@ import { router } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useRef, useState } from "react";
-import { Alert, Animated, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Alert, Animated, StyleSheet, Text, View } from "react-native";
 import { auth, db } from "../../firebaseConfig";
-import useTreatamentContext from "../components/context/useTreatmentContext";
+import useTreatamentContext from "../context/useTreatmentContext";
 
 
 export default function Index() {
@@ -66,7 +65,13 @@ export default function Index() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+
+    <View>
+      <Text>Testando rotas</Text>
+    </View>
+
+    );
+    {/* <SafeAreaView style={styles.container} edges={['top']}>
       <Animated.Image
         style={[{ opacity: fadeAnim }]}
         source={require("../../assets/images/logo-128px.png")}
@@ -110,8 +115,8 @@ export default function Index() {
           </Pressable>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
-  );
+    </SafeAreaView> */}
+  
 }
 
 const styles = StyleSheet.create({

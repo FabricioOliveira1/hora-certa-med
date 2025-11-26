@@ -1,7 +1,7 @@
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import TreatmentProvider from '../components/context/TreatmentProvider';
+import TreatmentProvider from '../context/TreatmentProvider';
 
 export default function TabLayout() {
   return (

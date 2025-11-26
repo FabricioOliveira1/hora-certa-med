@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import useTreatamentContext from "../../context/useTreatmentContext";
+import useTreatamentContext from "../../../context/useTreatmentContext";
 
 export default function Card({ item }) {
 

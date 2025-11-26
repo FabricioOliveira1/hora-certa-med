@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import useTreatamentContext from "../context/useTreatmentContext";
+import useTreatamentContext from "../../context/useTreatmentContext";
 import Card from "./Card";
 import NewRegisterButton from "./NewRegisterButton";
 import TreatmentCard from "./TreatmentCard";

@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { router } from "expo-router";
 import { useState } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
-import useTreatamentContext from "../components/context/useTreatmentContext";
+import useTreatamentContext from "../../context/useTreatmentContext";
 
 export default function AddTreatment() {
 

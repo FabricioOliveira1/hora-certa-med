@@ -1,9 +1,9 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Card from "../components/CardContainer/Card";
-import NewRegisterButton from "../components/CardContainer/NewRegisterButton";
-import Header from "../components/Header";
-import useTreatamentContext from "../components/context/useTreatmentContext";
+import Card from "../../components/CardContainer/Card";
+import NewRegisterButton from "../../components/CardContainer/NewRegisterButton";
+import Header from "../../components/Header";
+import useTreatamentContext from "../../context/useTreatmentContext";
 
 
 export default function Today() {
