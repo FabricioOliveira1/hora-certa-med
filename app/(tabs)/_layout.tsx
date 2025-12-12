@@ -1,9 +1,11 @@
+import React from 'react'
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import { router, Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import TreatmentProvider from '../context/TreatmentProvider';
+import TreatmentProvider from '../context/TreatmentProvider'; 
 
-export default function TabLayout() {
+export default function TabLayout(): React.ReactElement {
+  const router = useRouter();
   return (
     <SafeAreaProvider>
       <TreatmentProvider>
@@ -45,7 +47,7 @@ export default function TabLayout() {
               },
               headerLeft: () =>
                 <Ionicons
-                  onPress={() => router.navigate('./')}
+                  onPress={() => router.push('./')}
                   size={28} name="arrow-back"
                   color={'#fff'}
                   style={{ marginLeft: 16 }} />
@@ -92,7 +94,7 @@ export default function TabLayout() {
               },
               headerLeft: () =>
                 <Ionicons
-                  onPress={() => router.navigate('./today')}
+                  onPress={() => router.push('./today')}
                   size={28} name="arrow-back"
                   color={'#fff'}
                   style={{ marginLeft: 16 }} />

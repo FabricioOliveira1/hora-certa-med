@@ -1,20 +1,23 @@
-import { router } from "expo-router";
+import React, { useRef, useState } from "react";
+import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { useRef, useState } from "react";
-import { Alert, Animated, StyleSheet, Text, View } from "react-native";
+import { Alert, Animated, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { auth, db } from "../../firebaseConfig";
-import useTreatamentContext from "../context/useTreatmentContext";
+import  useTreatamentContext  from "../context/useTreatmentContext";  
 
 
-export default function Index() {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const fadeAnim = useRef(new Animated.Value(1)).current; // Opacidade inicial 1 para ficar visível.
+export default function Index(): React.ReactElement {
+  const [email, setEmail] = useState<string>('');
+  const [senha, setSenha] = useState<string>('');
+  const fadeAnim = useRef<Animated.Value>(new Animated.Value(1)).current; // Opacidade inicial 1 para ficar visível.
+
+    const router = useRouter()
 
   const { setTreatment } = useTreatamentContext()
 
-  async function handleLogin() {
+  async function handleLogin(): Promise<void> {
     try{
       if (email === '' || senha === '') {
         Alert.alert('Erro', 'Preencha todos os campos.');
@@ -26,10 +29,8 @@ export default function Index() {
       console.log("Usuário logado com sucesso:");
 
       // Busca tratamentos após login
-      const tratamentosRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(tratamentosRef).then((docSnap) => {
-        return docSnap
-      });
+      const tratamentosRef = doc(db, 'users', user?.uid ?? '');
+      const docSnap = await getDoc(tratamentosRef);
       console.log("Tratamentos buscados com sucesso! docsnap:", docSnap.data());
       if (docSnap.exists()) {
         setTreatment(docSnap.data().treatment);
@@ -42,7 +43,8 @@ export default function Index() {
       router.replace('/treatment');
 
     } catch (error) {
-        console.log('Erro', error.message);
+      console.error(error);
+        
         Alert.alert('Erro', 'Falha ao fazer login. Verifique suas credenciais.');
         router.replace('/');
     }
@@ -62,16 +64,11 @@ export default function Index() {
       duration: 500,
       useNativeDriver: true,
     }).start();
-  };
+  }; 
 
   return (
 
-    <View>
-      <Text>Testando rotas</Text>
-    </View>
-
-    );
-    {/* <SafeAreaView style={styles.container} edges={['top']}>
+     <SafeAreaView style={styles.container} edges={['top']}>
       <Animated.Image
         style={[{ opacity: fadeAnim }]}
         source={require("../../assets/images/logo-128px.png")}
@@ -92,7 +89,7 @@ export default function Index() {
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
-              required
+              
               onFocus={handleInputFocus}
               onBlur={handleInputBlur} />
             <Text style={{ color: '#fff', fontSize: 20 }}>Senha:</Text>
@@ -102,7 +99,7 @@ export default function Index() {
               value={senha}
               onChangeText={setSenha}
               secureTextEntry
-              required
+              
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
             />
@@ -115,11 +112,12 @@ export default function Index() {
           </Pressable>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-    </SafeAreaView> */}
-  
+    </SafeAreaView> 
+
+  )
 }
 
-const styles = StyleSheet.create({
+ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
@@ -140,7 +138,7 @@ const styles = StyleSheet.create({
   },
   form: {
     width: '80%',
-    alignItems: 'left',
+    alignItems: 'flex-end',
     gap: 10,
   },
   input: {
@@ -160,4 +158,4 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24
   }
-})
+}) 

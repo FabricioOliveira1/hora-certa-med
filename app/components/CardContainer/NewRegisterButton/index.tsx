@@ -1,17 +1,23 @@
-import { router } from "expo-router";
+import React from 'react'
+import { useRouter } from "expo-router";
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 
+interface Props {
+  children: React.ReactNode;
+  screen: 'today' | 'treatment';
+}
 
-export default function NewRegisterButton({ children, screen }) {
+export default function NewRegisterButton({ children, screen }: Props): React.ReactElement {
+  const router = useRouter();
 
   return (
       <Pressable
-        style={styles[`${screen}`]}
-        onPress={() => router.navigate('../addTreatment')}
+        style={styles[screen] as any}
+        onPress={() => router.push('../addTreatment')}
       >
         {screen === 'today' ? <Text style={styles.displayNone}>{children}</Text> : <Text style={styles.text}>{children}</Text>}
         
-        <Image source={require('../assets/botao-adicionar-64-filled.png')} />
+        <Image source={require('../../assets/botao-adicionar-64-filled.png')} />
       </Pressable>
   )
 }

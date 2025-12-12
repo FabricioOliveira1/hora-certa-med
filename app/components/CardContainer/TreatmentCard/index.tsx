@@ -1,8 +1,14 @@
+import React from 'react'
 import { FontAwesome } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import useTreatamentContext from "../../../context/useTreatmentContext";
+import useTreatamentContext from "../../../context/useTreatmentContext"; 
+import { Treatment } from '../../../context/TreatmentProvider';
 
-export default function TretmentCard({ tratamento }) {
+interface Props {
+  tratamento: Treatment;
+}
+
+export default function TretmentCard({ tratamento }: Props): React.ReactElement {
 
   const { onDeleteTreatment } = useTreatamentContext()
 
@@ -22,7 +28,7 @@ export default function TretmentCard({ tratamento }) {
           Tomar de {tratamento.interval} em {tratamento.interval} horas.
         </Text>
         <Text>
-          Proxima Aplicação: {tratamento.nextAplication.hour}
+          Proxima Aplicação: {tratamento.nextAplication?.hour}
         </Text>
       </View>
       <View style={{

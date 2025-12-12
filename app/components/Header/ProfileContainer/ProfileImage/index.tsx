@@ -1,6 +1,7 @@
+import React from 'react'
 import { Image, StyleSheet, View } from "react-native";
 
-export default function ProfileImage() {
+export default function ProfileImage(): React.ReactElement {
   return (
     <View>
       <Image style={styles.image} source={require('./assets/profile-image.png')}/>

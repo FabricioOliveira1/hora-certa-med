@@ -1,19 +1,17 @@
-import { router } from 'expo-router';
+import React, { useRef } from 'react'
+import { useRouter } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useRef } from 'react';
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { auth } from '../../firebaseConfig';
 
+export default function RegisterScreen(): React.ReactElement {
 
-export default function RegisterScreen() {
+  const router = useRouter();
+  const nameRef = useRef<string>('');
+  const emailRef = useRef<string>('');
+  const passwordRef = useRef<string>('');
 
-  const nameRef = useRef('');
-  const emailRef = useRef('');
-  const passwordRef = useRef('');
-
-  console.log(nameRef, emailRef, passwordRef)
-
-  async function handleRegister() {
+  async function handleRegister(): Promise<void> {
     if (!nameRef.current || !emailRef.current || !passwordRef.current) {
       Alert.alert('Erro', 'Preencha todos os campos.');
       return;
@@ -25,7 +23,7 @@ export default function RegisterScreen() {
       Alert.alert('Usuário registrado com sucesso!');
       router.replace('/');
     })
-    .catch((error) => {
+    .catch((error: any) => {
       if (error.code === 'auth/email-already-in-use') {
         Alert.alert('Erro', 'Este email já está em uso.');
       } else if (error.code === 'auth/invalid-email') {
@@ -38,7 +36,6 @@ export default function RegisterScreen() {
       console.error('Erro ao registrar usuário:', error);
     });
   }
-
 
   return (
     <KeyboardAvoidingView
@@ -55,14 +52,14 @@ export default function RegisterScreen() {
             autoComplete="name"
             style={styles.input}
             placeholder="Nome"
-            value={nameRef}
+            value={nameRef.current}
             onChangeText={(text) => { nameRef.current = text }}
           />
           <Text style={styles.label}>Seu email:</Text>
           <TextInput
             style={styles.input}
             placeholder="E-mail"
-            value={emailRef}
+            value={emailRef.current}
             onChangeText={(text) => { emailRef.current = text }}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -71,7 +68,7 @@ export default function RegisterScreen() {
           <TextInput
             style={styles.input}
             placeholder="Senha"
-            value={passwordRef}
+            value={passwordRef.current}
             onChangeText={(text) => { passwordRef.current = text }}
             secureTextEntry
           />

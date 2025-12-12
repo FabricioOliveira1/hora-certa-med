@@ -1,7 +1,12 @@
+import React from 'react'
 import { Image, StyleSheet, Text, View } from "react-native";
-import ProfileContainer from "./ProfileContainer";
+import ProfileContainer from "./ProfileContainer"; 
 
-export default function Header({ children }) {
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function Header({ children }: Props): React.ReactElement {
 
   return (
     <View style={styles.header}>
@@ -19,7 +24,7 @@ export default function Header({ children }) {
 const styles = StyleSheet.create({
   header: {
     justifyContent: 'center',
-    alignItems: 'start',
+    alignItems: 'flex-start',
     padding: 20,
     paddingBottom: 10,
     gap: 30,
@@ -33,7 +38,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'start',
+    justifyContent: 'flex-start',
     gap: 20,
   },
 

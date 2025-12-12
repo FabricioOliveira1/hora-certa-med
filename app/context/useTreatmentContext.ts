@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { TreatmentContext } from "./TreatmentProvider";
+import { TreatmentContext, TreatmentContextType } from "./TreatmentProvider";
 
-export default function useTreatamentContext() {
+export default function useTreatamentContext(): TreatmentContextType {
   const context = useContext(TreatmentContext)
 
   if(!context) {

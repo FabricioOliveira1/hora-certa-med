@@ -1,12 +1,12 @@
+import React from 'react'
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Card from "../../components/CardContainer/Card";
-import NewRegisterButton from "../../components/CardContainer/NewRegisterButton";
-import Header from "../../components/Header";
-import useTreatamentContext from "../../context/useTreatmentContext";
+import Card from "../../components/CardContainer/Card"; 
+import NewRegisterButton from "../../components/CardContainer/NewRegisterButton"; 
+import Header from "../../components/Header"; 
+import useTreatamentContext from "../../context/useTreatmentContext"; 
 
-
-export default function Today() {
+export default function Today(): React.ReactElement {
 
   const { list } = useTreatamentContext()
 
@@ -33,7 +33,7 @@ export default function Today() {
             style={styles.listContainer}
             data={list}
             renderItem={({ item }) => <Card item={item} />}
-            keyExtractor={item => item.id}
+            keyExtractor={item => String(item.id)}
             ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
             ListFooterComponent={<View style={{ height: 80 }} />}
           />

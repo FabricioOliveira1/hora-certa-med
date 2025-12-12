@@ -1,11 +1,12 @@
+import React from 'react'
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import NewRegisterButton from "../../components/CardContainer/NewRegisterButton";
-import TreatmentCard from "../../components/CardContainer/TreatmentCard";
-import Header from "../../components/Header";
-import useTreatamentContext from "../../context/useTreatmentContext";
+import NewRegisterButton from "../../components/CardContainer/NewRegisterButton"; 
+import TreatmentCard from "../../components/CardContainer/TreatmentCard"; 
+import Header from "../../components/Header"; 
+import useTreatamentContext from "../../context/useTreatmentContext"; 
 
-export default function Tratamentos() {
+export default function Tratamentos(): React.ReactElement {
 
   const { treatment } = useTreatamentContext();
   return (
@@ -29,7 +30,7 @@ export default function Tratamentos() {
             style={styles.listContainer}
             data={treatment}
             renderItem={({ item }) => <TreatmentCard tratamento={item} />}
-            keyExtractor={tratamento => tratamento.treatmentId}
+            keyExtractor={(tratamento) => String(tratamento.treatmentId)}
             ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
             ListFooterComponent={<View style={{ height: 65 }} />}
           />

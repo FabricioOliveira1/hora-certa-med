@@ -1,6 +1,7 @@
+import React from 'react'
 import { StyleSheet, Text, View } from "react-native";
 
-export default function Footer() {
+export default function Footer(): React.ReactElement {
   return (
     <View style={styles.footer}>
       <Text style={styles.text}>Desenvolvido por estacio@alunos</Text>

@@ -1,7 +1,8 @@
+import React from 'react'
 import { StyleSheet, Text, View } from "react-native";
 import ProfileImage from "./ProfileImage";
 
-export default function ProfileContainer() {
+export default function ProfileContainer(): React.ReactElement {
   return (
       <View style={styles.profileContainer}>
         <ProfileImage />
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'start',
+    justifyContent: 'flex-start',
     gap: 20,
   },
   title: {

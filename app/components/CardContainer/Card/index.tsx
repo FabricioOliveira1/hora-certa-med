@@ -1,8 +1,20 @@
+import React from 'react';
 import { FontAwesome } from "@expo/vector-icons";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import useTreatamentContext from "../../../context/useTreatmentContext";
+import useTreatamentContext from "../../../context/useTreatmentContext"; 
+import { Treatment } from '../../../context/TreatmentProvider';
 
-export default function Card({ item }) {
+interface Props {
+  item: {
+    id: string | number;
+    hour: string;
+    name: string;
+    amount: number;
+    [key: string]: any;
+  }
+}
+
+export default function Card({ item }: Props): React.ReactElement {
 
   const { onConsumingMedicine } = useTreatamentContext()
   
@@ -16,7 +28,7 @@ export default function Card({ item }) {
             <Text style={styles.title}>{item.name}</Text>
             <Text style={styles.text}>{`${item.amount} unidades restantes`}</Text>
           </View>
-          <Pressable onPress={() => onConsumingMedicine(item)} style={styles.checkButton}>
+          <Pressable onPress={() => onConsumingMedicine({ name: item.name, routineId: item.routineId })} style={styles.checkButton}>
             <FontAwesome size={28} name="check" color={'#fff'} />
           </Pressable>
         </View>

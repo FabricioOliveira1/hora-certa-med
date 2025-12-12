@@ -1,28 +1,29 @@
+import React, { useState } from 'react'
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { router } from "expo-router";
-import { useState } from "react";
+import { useRouter } from "expo-router";
 import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
-import useTreatamentContext from "../../context/useTreatmentContext";
+import useTreatamentContext from "../../context/useTreatmentContext"; 
 
-export default function AddTreatment() {
+export default function AddTreatment(): React.ReactElement {
 
   const { adicionarTratamento } = useTreatamentContext()
+  const router = useRouter();
 
-  const [treatmentName, setTreatmentName] = useState('')
-  const [treatmentInitialDate, setTreatmentInitialDate] = useState(new Date())
-  const [treatmentInterval, setTreatmentInterval] = useState('')
-  const [treatmentAmount, setTreatmentAmount] = useState('')
-  const [currentDateLabel, setCurrentDateLabel] = useState(treatmentInitialDate.toLocaleString('pt-BR'))
-  const [showPicker, setShowPicker] = useState(false);
-  const [alertEmptyField, setAlertEmptyField] = useState(false)
+  const [treatmentName, setTreatmentName] = useState<string>('')
+  const [treatmentInitialDate, setTreatmentInitialDate] = useState<Date>(new Date())
+  const [treatmentInterval, setTreatmentInterval] = useState<string>('')
+  const [treatmentAmount, setTreatmentAmount] = useState<string>('')
+  const [currentDateLabel, setCurrentDateLabel] = useState<string>(treatmentInitialDate.toLocaleString('pt-BR'))
+  const [showPicker, setShowPicker] = useState<boolean>(false);
+  const [alertEmptyField, setAlertEmptyField] = useState<boolean>(false)
 
-  const onChange = ({ type }, date) => {
-    if (type === 'set') {
+  const onChange = ({ type }: any, date?: Date) => {
+    if (type === 'set' && date) {
       const currentDate = date
       setTreatmentInitialDate(currentDate);
       if (Platform.OS === 'android') {
-        setCurrentDateLabel(treatmentInitialDate.toLocaleString('pt-BR'))
+        setCurrentDateLabel(currentDate.toLocaleString('pt-BR'))
         toggleDatePicker()
       } else {
         toggleDatePicker()
@@ -54,13 +55,13 @@ export default function AddTreatment() {
       const newTreatment = {
         name: treatmentName,
         initialDate: treatmentInitialDate,
-        interval: treatmentInterval,
-        amount: treatmentAmount,
+        interval: Number(treatmentInterval),
+        amount: Number(treatmentAmount),
       }
       adicionarTratamento(newTreatment)
       setAlertEmptyField(false)
       cleanFields()
-      router.navigate('./treatment')
+      router.push('./treatment')
     }
   }
 
@@ -73,7 +74,7 @@ export default function AddTreatment() {
         onPress={Keyboard.dismiss}>
         <View>
           <View>
-            <Text style={styles.title}>Adicionar{'\n'} Medicamento</Text>
+            <Text style={styles.title}>Adicionar{"\n"} Medicamento</Text>
           </View>
           <View style={styles.form}>
             <Text style={styles.label}>Nome do Medicamento:</Text>
