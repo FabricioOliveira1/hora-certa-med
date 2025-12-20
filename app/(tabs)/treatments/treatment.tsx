@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import NewRegisterButton from "../../components/CardContainer/NewRegisterButton"; 
-import TreatmentCard from "../../components/CardContainer/TreatmentCard"; 
-import Header from "../../components/Header"; 
-import useTreatamentContext from "../../context/useTreatmentContext"; 
+import NewRegisterButton from "../../components/CardContainer/NewRegisterButton";
+import TreatmentCard from "../../components/CardContainer/TreatmentCard";
+import Header from "../../components/Header";
+import useTreatamentContext from "../../context/useTreatmentContext";
 
 export default function Tratamentos(): React.ReactElement {
 

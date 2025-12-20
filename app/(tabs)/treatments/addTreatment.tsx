@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRouter } from "expo-router";
+import React, { useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
-import useTreatamentContext from "../../context/useTreatmentContext"; 
+import useTreatamentContext from "../../context/useTreatmentContext";
 
 export default function AddTreatment(): React.ReactElement {
 

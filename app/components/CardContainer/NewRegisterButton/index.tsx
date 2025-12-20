@@ -1,5 +1,5 @@
-import React from 'react'
 import { useRouter } from "expo-router";
+import React from 'react';
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 
 interface Props {
@@ -17,7 +17,7 @@ export default function NewRegisterButton({ children, screen }: Props): React.Re
       >
         {screen === 'today' ? <Text style={styles.displayNone}>{children}</Text> : <Text style={styles.text}>{children}</Text>}
         
-        <Image source={require('../../assets/botao-adicionar-64-filled.png')} />
+        <Image source={require('../assets/botao-adicionar-64-filled.png')} />
       </Pressable>
   )
 }

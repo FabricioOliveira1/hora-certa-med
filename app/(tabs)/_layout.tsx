@@ -1,8 +1,8 @@
-import React from 'react'
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Tabs, useRouter } from 'expo-router';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import TreatmentProvider from '../context/TreatmentProvider'; 
+import TreatmentProvider from '../context/TreatmentProvider';
 
 export default function TabLayout(): React.ReactElement {
   const router = useRouter();

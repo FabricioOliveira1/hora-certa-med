@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { StyleSheet, Text, View } from "react-native";
-import useTreatamentContext from "../../context/useTreatmentContext"; 
-import Card from "./Card"; 
-import NewRegisterButton from "./NewRegisterButton"; 
-import TreatmentCard from "./TreatmentCard"; 
-import { Treatment } from '../../context/TreatmentProvider'; 
+import { Treatment } from '../../context/TreatmentProvider';
+import useTreatamentContext from "../../context/useTreatmentContext";
+import Card from "./Card";
+import NewRegisterButton from "./NewRegisterButton";
+import TreatmentCard from "./TreatmentCard";
 
 interface Props {
   screen: 'today' | 'treatment';

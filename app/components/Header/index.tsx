@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 import { Image, StyleSheet, Text, View } from "react-native";
-import ProfileContainer from "./ProfileContainer"; 
+import ProfileContainer from "./ProfileContainer";
 
 interface Props {
   children: React.ReactNode;

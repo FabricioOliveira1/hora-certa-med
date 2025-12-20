@@ -2,7 +2,7 @@ import { doc, setDoc } from "firebase/firestore";
 import React, { createContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { auth, db } from "../../firebaseConfig";
-import useHandleAplicationRoutine from "../hooks/useHandleAplicationRoutine"
+import useHandleAplicationRoutine from "../hooks/useHandleAplicationRoutine";
 import getGlobalList from "../utils/getGlobalList";
 
 export interface Treatment {

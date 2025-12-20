@@ -1,8 +1,7 @@
-import React from 'react';
 import { FontAwesome } from "@expo/vector-icons";
+import React from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import useTreatamentContext from "../../../context/useTreatmentContext"; 
-import { Treatment } from '../../../context/TreatmentProvider';
+import useTreatamentContext from "../../../context/useTreatmentContext";
 
 interface Props {
   item: {

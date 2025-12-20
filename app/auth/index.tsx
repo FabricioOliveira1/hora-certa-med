@@ -1,11 +1,11 @@
-import React, { useRef, useState } from "react";
 import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import React, { useRef, useState } from "react";
 import { Alert, Animated, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth, db } from "../../firebaseConfig";
-import  useTreatamentContext  from "../context/useTreatmentContext";  
+import useTreatamentContext from "../context/useTreatmentContext";
 
 
 export default function Index(): React.ReactElement {
