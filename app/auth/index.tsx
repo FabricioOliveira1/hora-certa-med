@@ -1,52 +1,45 @@
+import { auth } from "@/firebaseConfig";
 import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 import React, { useRef, useState } from "react";
 import { Alert, Animated, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { auth, db } from "../../firebaseConfig";
-import useTreatamentContext from "../context/useTreatmentContext";
-
 
 export default function Index(): React.ReactElement {
   const [email, setEmail] = useState<string>('');
   const [senha, setSenha] = useState<string>('');
   const fadeAnim = useRef<Animated.Value>(new Animated.Value(1)).current; // Opacidade inicial 1 para ficar visível.
 
-    const router = useRouter()
-
-  const { setTreatment } = useTreatamentContext()
+  const router = useRouter()
 
   async function handleLogin(): Promise<void> {
-    try{
+    try {
       if (email === '' || senha === '') {
         Alert.alert('Erro', 'Preencha todos os campos.');
         return;
       }
       // Faz o login com Firebase Auth
       await signInWithEmailAndPassword(auth, email, senha)
-      const user = auth.currentUser;
+      // Navega para a tela de tratamentos
+      router.replace('/(tabs)/dashboard');
       console.log("Usuário logado com sucesso:");
+      /* const user = auth.currentUser; */
 
       // Busca tratamentos após login
-      const tratamentosRef = doc(db, 'users', user?.uid ?? '');
+      /* const tratamentosRef = doc(db, 'users', user?.uid ?? '');
       const docSnap = await getDoc(tratamentosRef);
       console.log("Tratamentos buscados com sucesso! docsnap:", docSnap.data());
       if (docSnap.exists()) {
-        setTreatment(docSnap.data().treatment);
         console.log("Tratamentos carregados:", docSnap.data().treatment);
       } else {
-        setTreatment([]);
         console.log("Nenhum tratamento encontrado para este usuário.");
-      }
-      // Navega para a tela de tratamentos
-      router.replace('/treatment');
+      } */
+      
 
     } catch (error) {
       console.error(error);
-        
-        Alert.alert('Erro', 'Falha ao fazer login. Verifique suas credenciais.');
-        router.replace('/');
+      Alert.alert('Erro', 'Falha ao fazer login. Verifique suas credenciais.');
+      router.replace('/');
     }
   };
 
@@ -64,11 +57,13 @@ export default function Index(): React.ReactElement {
       duration: 500,
       useNativeDriver: true,
     }).start();
-  }; 
+  };
+
+
 
   return (
 
-     <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Animated.Image
         style={[{ opacity: fadeAnim }]}
         source={require("../../assets/images/logo-128px.png")}
@@ -84,22 +79,24 @@ export default function Index(): React.ReactElement {
             <Text style={{ color: '#fff', fontSize: 20 }}>Email:</Text>
             <TextInput
               style={styles.input}
-              placeholder="E-mail"
+              placeholder="seuemail@exemplo.com"
+              placeholderTextColor="#999"
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
-              
+
               onFocus={handleInputFocus}
               onBlur={handleInputBlur} />
             <Text style={{ color: '#fff', fontSize: 20 }}>Senha:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Senha"
+              placeholder="Digite sua senha"
+              placeholderTextColor="#999"
               value={senha}
               onChangeText={setSenha}
               secureTextEntry
-              
+
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
             />
@@ -107,17 +104,18 @@ export default function Index(): React.ReactElement {
           <Pressable style={styles.button} onPress={() => handleLogin()}>
             <Text style={styles.text}>Entrar</Text>
           </Pressable>
-          <Pressable onPress={() => router.push('./register')}>
+          <Pressable onPress={() => router.push('/auth/register')}>
             <Text style={{ color: '#fff', fontSize: 18, textDecorationLine: 'underline' }}>Criar uma conta</Text>
           </Pressable>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-    </SafeAreaView> 
+    </SafeAreaView>
+
 
   )
 }
 
- const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
@@ -138,7 +136,7 @@ export default function Index(): React.ReactElement {
   },
   form: {
     width: '80%',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     gap: 10,
   },
   input: {

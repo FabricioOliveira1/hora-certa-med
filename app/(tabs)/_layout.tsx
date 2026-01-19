@@ -1,12 +1,12 @@
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import { Tabs, useRouter } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import TreatmentProvider from '../context/TreatmentProvider';
 
 export default function TabLayout(): React.ReactElement {
-  const router = useRouter();
-  return (
+/*   const router = useRouter();
+ */  return (
     <SafeAreaProvider>
       <TreatmentProvider>
         <Tabs screenOptions={{
@@ -17,19 +17,19 @@ export default function TabLayout(): React.ReactElement {
           }
         }}>
           <Tabs.Screen
-            name="index"
+            name="dashboard"
             options={{
-              title: 'login',
+              title: 'Painel',
               tabBarIcon: ({ color }) => <FontAwesome size={28} name="check" color={color} />,
-              tabBarStyle: {
+              /* tabBarStyle: {
                 display: 'none',
-              },
-              tabBarItemStyle: {
+              }, */
+              /* tabBarItemStyle: {
                 display: 'none',
-              }
+              } */
             }}
           />
-          <Tabs.Screen
+          {/* <Tabs.Screen
             name="register"
             options={{
               title: '',
@@ -53,21 +53,29 @@ export default function TabLayout(): React.ReactElement {
                   style={{ marginLeft: 16 }} />
               
             }}
-          />
-          <Tabs.Screen
+          /> */}
+          {/* <Tabs.Screen
             name="today"
             options={{
               title: 'Hoje',
               tabBarIcon: ({ color }) => <FontAwesome size={28} name="check" color={color} />,
             }}
-          />
+          /> */}
           <Tabs.Screen
-            name="treatment"
+            name="treatments"
             options={{
               title: 'Tratamentos',
               tabBarIcon: ({ color }) => <FontAwesome size={28} name="medkit" color={color} />,
             }}
           />
+          <Tabs.Screen
+            name="addTreatment"
+            options={{
+              title: 'Novo',
+              tabBarIcon: ({ color }) => <FontAwesome size={28} name="plus" color={color} style={{ backgroundColor: 'transparent' }} />,
+            }}
+          />
+
           <Tabs.Screen
             name="calendar"
             options={{
@@ -82,7 +90,7 @@ export default function TabLayout(): React.ReactElement {
               tabBarIcon: ({ color }) => <FontAwesome size={28} name="history" color={color} />,
             }}
           />
-          <Tabs.Screen
+          {/* <Tabs.Screen
             name="addTreatment"
             options={{
               title: '',
@@ -106,7 +114,7 @@ export default function TabLayout(): React.ReactElement {
                 display: 'none'
               }
             }}
-          />
+          /> */}
         </Tabs>
       </TreatmentProvider>
     </SafeAreaProvider>

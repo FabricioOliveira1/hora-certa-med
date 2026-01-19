@@ -9,6 +9,15 @@ export default function AuthLayout() {
         options={{ title: "Auth Home" }}
       />
     
+       <Stack.Screen
+        name="register" 
+        options={{ 
+          title: "", 
+          headerShown: true, 
+          headerBackButtonDisplayMode: 'minimal',
+          headerStyle: { backgroundColor: '#009183' }}}
+      />
+    
     </Stack>
   );
 }

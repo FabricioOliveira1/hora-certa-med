@@ -1,28 +1,42 @@
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import { useEffect } from "react";
-import { Image, StyleSheet, Text } from "react-native";
+import { ActivityIndicator, Image, StyleSheet, Text } from "react-native";
+import 'react-native-get-random-values';
 import { SafeAreaView } from "react-native-safe-area-context";
+import useAuth from "./context/useAuthContext";
+
 
 export default function Index() {
 
-  const router = useRouter()
-  
+  // Se estiver logado, redirecionar para a tela principal do app
+  // Se nao estiver logado, redirecionar para a tela de login
+
+  const { user, isLoading } = useAuth();
+
   useEffect(() => {
 
-    if(router) {
-      const redirect = async () => {
-        router.replace("/auth");
-      };
-
-      /* colocar logica de verificação se usuario esta logado para ir direto para dashboard dele */
-      redirect();
-    }
-}, [router]);
+    async function checkLoginStatus() {
+      try {
+        if (isLoading) {
+          return <ActivityIndicator style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} />
+        } else {
+          if (!user) {
+            router.replace('/auth');
+          } else if (user) {
+            router.replace('/(tabs)');
+          }
+        }
+        } catch (error) {
+          console.error("Erro ao verificar status de login: ", error);
+        }
+      }
+    checkLoginStatus();
+    }, [user, isLoading]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={require('../assets/images/logo-128px.png')}/>
-      <Text style={styles.textTitle} >Hora Certa Med</Text>
+      <Image source={require('../assets/images/logo-128px.png')} />
+      <Text style={styles.textTitle}>Hora Certa Med</Text>
     </SafeAreaView>
   );
 }
@@ -35,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#009183',
   },
-    textTitle: {
+  textTitle: {
     fontSize: 36,
     color: "#fff"
   },

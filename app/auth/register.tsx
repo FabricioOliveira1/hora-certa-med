@@ -1,27 +1,34 @@
 import { useRouter } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { auth } from '../../firebaseConfig';
 
 export default function RegisterScreen(): React.ReactElement {
 
   const router = useRouter();
-  const nameRef = useRef<string>('');
-  const emailRef = useRef<string>('');
-  const passwordRef = useRef<string>('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
+  function cleanInputs(): void {
+    setName('');
+    setEmail('');
+    setSenha('');
+  }
 
   async function handleRegister(): Promise<void> {
-    if (!nameRef.current || !emailRef.current || !passwordRef.current) {
+    if (!name || !email || !senha) {
       Alert.alert('Erro', 'Preencha todos os campos.');
       return;
     }
 
-    await createUserWithEmailAndPassword(auth, emailRef.current, passwordRef.current)
+    await createUserWithEmailAndPassword(auth, email, senha)
     .then(() => {
       console.log('Usuário registrado com sucesso:');
       Alert.alert('Usuário registrado com sucesso!');
-      router.replace('/');
+      cleanInputs();
+      router.replace('/auth')
     })
     .catch((error: any) => {
       if (error.code === 'auth/email-already-in-use') {
@@ -51,25 +58,28 @@ export default function RegisterScreen(): React.ReactElement {
           <TextInput
             autoComplete="name"
             style={styles.input}
-            placeholder="Nome"
-            value={nameRef.current}
-            onChangeText={(text) => { nameRef.current = text }}
+            placeholder="Digite seu Nome"
+            placeholderTextColor="#999"
+            value={name}
+            onChangeText={(text) => setName(text)}
           />
           <Text style={styles.label}>Seu email:</Text>
           <TextInput
             style={styles.input}
-            placeholder="E-mail"
-            value={emailRef.current}
-            onChangeText={(text) => { emailRef.current = text }}
+            placeholder="seuemail@exemplo.com"
+            placeholderTextColor="#999"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
             keyboardType="email-address"
             autoCapitalize="none"
           />
           <Text style={styles.label}>Sua senha:</Text>
           <TextInput
             style={styles.input}
-            placeholder="Senha"
-            value={passwordRef.current}
-            onChangeText={(text) => { passwordRef.current = text }}
+            placeholder="Digite sua senha"
+            placeholderTextColor="#999"
+            value={senha}
+            onChangeText={(text) => setSenha(text)}
             secureTextEntry
           />
           <TouchableOpacity style={styles.button} onPress={handleRegister}>
