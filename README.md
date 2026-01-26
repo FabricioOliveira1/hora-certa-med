@@ -1,6 +1,16 @@
 # 💊 Hora Certa Med
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![React Native](https://img.shields.io/badge/React%20Native-yes-blue)
+![Expo](https://img.shields.io/badge/Expo-SDK-purple)
+![Firebase](https://img.shields.io/badge/Firebase-Auth%20%7C%20DB-orange)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-> Uma agenda inteligente para o gerenciamento e organização do uso de medicamentos controlados.
+## 📱 Sobre o Projeto
+HoraCerta Med é uma aplicação mobile desenvolvida em React Native com foco em ajudar usuários a **organizar e acompanhar horários de medicação de forma simples e confiável**.
+
+O projeto está sendo desenvolvido publicamente como um **case profissional de front-end/mobile**, com atenção à experiência do usuário, estrutura escalável de código e integração com backend leve.
+
+---
 
 ## 📱 Visão Geral
 
@@ -16,30 +26,73 @@ O **Hora Certa Med** é um aplicativo mobile desenvolvido em **React Native (Exp
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🎯 Problema que Resolve
+Muitos usuários, especialmente pessoas que fazem uso contínuo de medicamentos, enfrentam dificuldades para:
+- Lembrar horários corretos
+- Controlar doses
+- Manter um histórico organizado
 
-- **Expo** e **React Native**  
-- **Firebase** (para autenticação e armazenamento)  
-- **Context API** para gerenciamento de estado global  
-- **Hooks customizados** para rotinas e dados dinâmicos  
+O HoraCerta Med centraliza essas informações em um único aplicativo, com uma interface clara e foco em usabilidade.
+
+---
+
+## 🛠️ Stack Tecnológica
+- React Native
+- Expo
+- Firebase (Authentication e Firestore)
+- JavaScript / TypeScript
+- Context API (Gerenciamento de estado)
+- Styled Components / UI customizada
+
+---
+
+## 🚀 Funcionalidades
+✔️ Autenticação de usuários  
+✔️ Cadastro de medicamentos  
+✔️ Definição de horários e doses  
+✔️ Visualização de agenda diária  
+✔️ Histórico de registros 
+
+---
+
+### Planejado
+- 🔔 Notificações locais
+- 👥 Perfil de dependentes
+- 📊 Dashboard com métricas de uso
+- 🧪 Testes automatizados
+
+---
+
+## 🧭 Fluxos Principais
+1. Usuário realiza login ou cadastro  
+2. Adiciona medicamentos com horários e dosagens  
+3. Visualiza painel com próximos horários  
+4. Acessa histórico de medicação  
+
+---
+
+## 💡 Aprendizados e Desafios Técnicos
+- Estruturação de navegação com separação clara entre rotas públicas e privadas
+- Gerenciamento de estado global com Context API
+- Integração entre autenticação e banco de dados no Firebase
+- Organização de componentes para escalabilidade
+- Separação de lógica de negócio e camada de UI
 
 ---
 
 ## ⚙️ Instalação
 
-Clone o repositório e instale as dependências:
-
-\`\`\`
+# Clone o repositório
 git clone https://github.com/FabricioOliveira1/hora-certa-med.git
+
+# Acesse a pasta
 cd hora-certa-med
+
+# Instale as dependências
 npm install
-\`\`\`
 
-Inicie o projeto com:
-
-\`\`\`
-expo start
-\`\`\`
+# Execute o projeto
+npx expo start
 
 ---
 
