@@ -1,75 +1,86 @@
 
-import { MedicationDose } from '@/app/types/types';
-import { FontAwesome } from '@expo/vector-icons';
+import { HorarioRemedio } from '@/app/types/types';
+import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface DoseCardProps {
-  dose: MedicationDose;
-  onTake: (id: string) => void;
+  dose: HorarioRemedio;
+  onTake: (id: string, doseId: string) => void;
   onDelay: (id: string) => void;
 }
 
-const DoseCard: React.FC<DoseCardProps> = ({ dose, onTake, onDelay }) => {
-  const getIcon = () => {
-    const size = 24;
-    const color = dose.accentColor;
-    switch (dose.type) {
-      case 'pill': return <FontAwesome name="flask" size={size} color={color} />;
-      case 'liquid': return <FontAwesome name="tint" size={size} color={color} />;
-      case 'drops': return <FontAwesome name="tint" size={size} color={color} />;
-      default: return <FontAwesome name="flask" size={size} color={color} />;
-    }
-  };
+function verificaDataDose(horario: Date): string {
+  const hoje = new Date();
+  const amanha = new Date(hoje);
+  amanha.setDate(hoje.getDate() + 1);
+  const dataDose = new Date(horario);
+  if (hoje.toDateString() === dataDose.toDateString()) {
+    return dataDose.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  } else if (amanha.toDateString() === dataDose.toDateString()) {
+    return 'Amanhã';
+  } else {
+    return dataDose.toLocaleDateString('pt-BR');
+  }
+}
 
-  const isTakeable = dose.status === 'pending';
+const DoseCard: React.FC<DoseCardProps> = ({ dose, onTake, onDelay }) => {
+
+  const isTakeable = dose.status === 'pendente';
 
   return (
-    <View style={[styles.card, dose.status === 'taken' && styles.cardTaken]}>
+    <View style={[styles.card, dose.status === 'tomado' && styles.cardTaken]}>
       <View style={styles.header}>
         <View style={styles.infoRow}>
-          <View style={[styles.iconBox, { backgroundColor: `${dose.accentColor}15` }]}>
-            {getIcon()}
+          <View style={[styles.iconBox]}>
+            <FontAwesome5 name={dose.form} size={24} color={'#009183'} />
           </View>
           <View style={styles.textDetails}>
-            <Text style={styles.name}>{dose.name}</Text>
+            <Text style={styles.name}>{dose.medication}</Text>
             <Text style={styles.dosage}>
-              {dose.dosage} {dose.info ? `• ${dose.info}` : ''}
+              {dose.dosage}
+              {dose.form === 'pills'
+                ? (dose.dosage === 1 ? '• comprimido' : '• comprimidos')
+                : dose.form === 'tint'
+                  ? (dose.dosage === 1 ? '• gota' : '• gotas')
+                  : null}
+
             </Text>
           </View>
         </View>
-        <View style={[styles.badge, dose.timeRemaining === '15 min' && styles.badgeAlert]}>
-          <Text style={[styles.badgeText, dose.timeRemaining === '15 min' && styles.badgeTextAlert]}>
-            {dose.timeRemaining}
+        <View style={[styles.badge, dose.countdown === '15 min' && styles.badgeAlert]}>
+          <Text style={[styles.badgeText, dose.countdown === '15 min' && styles.badgeTextAlert]}>
+            {dose.horario ? 
+              verificaDataDose(dose.horario) : 'Sem horário'}
           </Text>
         </View>
       </View>
 
       {isTakeable ? (
         <View style={styles.actions}>
-          <TouchableOpacity 
-            onPress={() => onTake(dose.id)}
+          <TouchableOpacity
+            onPress={() => onTake(dose.treatmentId, dose.doseId)}
             style={styles.takeBtn}
             activeOpacity={0.7}
           >
-            
-            <FontAwesome name="check" size={18} color="#fff" />
+
+            <FontAwesome5 name="check" size={18} color="#fff" />
             <Text style={styles.takeBtnText}>Tomar</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
-            onPress={() => onDelay(dose.id)}
+          <TouchableOpacity
+            onPress={() => onDelay(dose.doseId)}
             style={styles.delayBtn}
             activeOpacity={0.7}
           >
-            
-            <FontAwesome name="clock-o" size={18} color="#64748b" />
+
+            <FontAwesome5 name="clock" size={18} color="#64748b" />
             <Text style={styles.delayBtnText}>Adiar</Text>
           </TouchableOpacity>
         </View>
       ) : (
         <View style={styles.confirmedContainer}>
-          
-          <FontAwesome name="check-circle" size={20} color="#009183" />
+
+          <FontAwesome5 name="check-circle" size={20} color="#009183" />
           <Text style={styles.confirmedText}>Dose Confirmada</Text>
         </View>
       )}

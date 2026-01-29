@@ -1,42 +1,41 @@
+import useTreatamentContext from '@/app/context/useTreatmentContext';
 import { HealthMetric } from '@/app/types/types';
-import { FontAwesome } from '@expo/vector-icons';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const SummaryGrid: React.FC = () => {
+export default function SummaryGrid():React.ReactElement {
+
+  const { treatments } = useTreatamentContext()
+
+  function editaPressao() {
+    console.log('Editar pressão acionado');
+    // Adicionar a lógica para editar a pressão arterial
+  }
+
   const metrics: HealthMetric[] = [
     {
       id: 'meds',
       label: 'Medicações',
-      value: '5 Ativos',
+      value: `${treatments.length} Ativos`,
       icon: <FontAwesome name="briefcase" size={20} color="#009183" />,
       bgIcon: '#f0fdfa',
     },
     {
-      id: 'glucose',
-      label: 'Glicose',
-      value: '140',
-      unit: 'mg/dL',
+      id: 'pressao',
+      label: 'Pressão',
+      value: '120/80',
+      unit: 'mmHg',
       trend: 'up',
-      icon: <FontAwesome name="tint" size={20} color="#0d9488" />,
+      icon: <FontAwesome5 name="heartbeat" size={20} color="#0d9488" />,
       bgIcon: '#f0fdfa',
     },
-    {
-      id: 'alert',
-      label: 'Alerta',
-      value: 'Interação Detectada',
-      alert: true,
-      icon: <FontAwesome name="exclamation-triangle" size={20} color="#dc2626" />,
-      bgIcon: '#fef2f2',
-      textColor: '#b91c1c'
-    },
-    {
+/*     {
       id: 'refill',
       label: 'Refil',
       value: 'Em 3 dias',
       icon: <FontAwesome name="archive" size={20} color="#d97706" />,
       bgIcon: '#fffbeb',
-    }
+    } */
   ];
 
   return (
@@ -46,8 +45,14 @@ const SummaryGrid: React.FC = () => {
           key={metric.id}
           style={[styles.item, metric.alert && styles.itemAlert]}
         >
-          <View style={[styles.iconBox, { backgroundColor: metric.bgIcon }]}>
-            {metric.icon}
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+            <View style={[styles.iconBox, { backgroundColor: metric.bgIcon }]}>
+              {metric.icon}
+            </View>
+            <TouchableOpacity onPress={editaPressao}>
+              {metric.label === 'Pressão' && 
+              <FontAwesome5 name="edit" size={20} color="#0d9488" />}
+            </TouchableOpacity>
           </View>
           <Text style={[styles.label, metric.alert && styles.labelAlert]}>{metric.label}</Text>
           <View style={styles.valueRow}>
@@ -57,7 +62,6 @@ const SummaryGrid: React.FC = () => {
             {metric.unit && (
               <View style={styles.unitContainer}>
                 <Text style={styles.unit}>{metric.unit}</Text>
-                {metric.trend === 'up' && <FontAwesome name="arrow-up" size={12} color="#ef4444" />}
               </View>
             )}
           </View>
@@ -125,8 +129,6 @@ const styles = StyleSheet.create({
   unit: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#ef4444',
+    color: '#009183',
   }
 });
-
-export default SummaryGrid;

@@ -22,3 +22,5 @@ export const SPACING = {
   lg: 24,
   xl: 32,
 };
+
+export default COLORS

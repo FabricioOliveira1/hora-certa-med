@@ -70,3 +70,5 @@ export const MOCK_HISTORY: DayLog[] = [
     ]
   }
 ];
+
+export default MOCK_HISTORY;

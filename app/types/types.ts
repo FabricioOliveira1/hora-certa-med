@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface TreatmentProps {
-  id: string,
+  treatmentId: string,
   medication: string;
   form: 'pills' | 'tint';
   dosage: number;
@@ -18,12 +18,14 @@ export interface TreatmentProps {
 }
 
 export interface HorarioRemedio {
-  id: string;
+  treatmentId: string;
+  doseId: string;
   medication: string;
   dosage: number;
   horario: Date;
   status: 'tomado' | 'pendente';
   countdown: string;
+  form: 'pills' | 'tint';
   info?: string
 }
 
@@ -32,20 +34,6 @@ export interface ProgressoTratamento {
   porcentagem: number;
   diasDecorridos: number;
   diasTotais: number;
-}
-
-
-/* ---------------------------------------------------------- */
-
-export interface MedicationDose {
-  id: string;
-  name: string;
-  dosage: string;
-  info?: string;
-  timeRemaining: string;
-  type: 'pill' | 'liquid' | 'drops';
-  status: 'pending' | 'taken' | 'delayed';
-  accentColor: string;
 }
 
 export interface HealthMetric {
@@ -59,6 +47,12 @@ export interface HealthMetric {
   bgIcon: string;
   textColor?: string;
 }
+
+
+/* ---------------------------------------------------------- */
+
+
+
 
 export type TabType = 'Início' | 'Remédios' | 'Histórico' | 'Ajustes';
 
@@ -110,8 +104,7 @@ export interface Medication {
   dosage: string;
   form?: string;
   time?: string;
-/*   status?: MedicationStatus;
- */  scheduledTime?: string;
+  scheduledTime?: string;
   actualTime?: string;
   statusText?: string;
   status?: MedStatus; 
@@ -134,3 +127,6 @@ export interface DayLog {
 }
 
 export type FilterType = 'Todos' | 'Tomados' | 'Adiados';
+
+
+export default TreatmentProps;

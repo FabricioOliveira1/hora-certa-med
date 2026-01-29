@@ -1,26 +1,48 @@
+import { v4 as uuidv4 } from 'uuid';
 import { HorarioRemedio, ProgressoTratamento } from "../types/types";
-
-interface RoutineItem {
-  routineId: number;
-  hour: string;
-  timestamp: Date;
-}
 
 interface UseHandleAplicationRoutineReturn {
   handleNextRoutine: (agenda: HorarioRemedio[]) => HorarioRemedio | null;
-  gerarAgendaRemedios: (dataInicial: Date, repeticoes: number, intervaloHoras: number) => HorarioRemedio[];
+  gerarAgendaRemedios: (id: string, medication: string, dosage: number, initialDate: Date, duration: number, aplicationInterval: number) => HorarioRemedio[];
   calcularProgressoTratamento: (dataInicial: Date, diasTotais: number) => ProgressoTratamento;
   /*   todayList: (lista: HorarioRemedio[]) => RoutineItem[];*/
 }
 
 function useHandleAplicationRoutine(): UseHandleAplicationRoutineReturn {
 
-  function handleNextRoutine(agenda: HorarioRemedio[]) {
-    const now = new Date();
-    const proxima = agenda.find(item => item.horario > now);
-
-    return proxima || null; // retorna null se todas já passaram
+function handleNextRoutine(agenda: HorarioRemedio[]) {
+  const agora = new Date();
+  
+  // Filtra apenas medicações pendentes
+  const medicacoesPendentes = agenda.filter(dose => dose.status === 'pendente');
+  
+  // Se não houver medicações pendentes, retorna null
+  if (medicacoesPendentes.length === 0) {
+    return null;
   }
+  
+  // Encontra a medicação com o horário mais próximo no futuro
+  const proximaMedicacao = medicacoesPendentes.reduce((proxima: HorarioRemedio, atual) => {
+    const horaAtual = new Date(atual.horario);
+    const horaProxima = proxima ? new Date(proxima.horario) : null;
+    
+    // Se a hora já passou, ignora
+    if (horaAtual < agora) {
+      return proxima;
+    }
+    
+    // Se não há próxima ainda, ou a atual é mais próxima que a próxima
+    if (horaProxima){
+      if (!proxima || horaAtual < horaProxima) {
+        return atual;
+      }
+    }
+    
+    return proxima;
+  });
+  
+  return proximaMedicacao;
+}
 
   function calcularCountdown(horario: Date, agora: Date): string {
     const diferencaMs = horario.getTime() - agora.getTime();
@@ -47,17 +69,17 @@ function useHandleAplicationRoutine(): UseHandleAplicationRoutineReturn {
     }
   }
 
-  function gerarAgendaRemedios(dataInicial: Date, repeticoes: number, intervaloHoras: number): HorarioRemedio[] {
+  function gerarAgendaRemedios(id: string, medication: string, dosage: number,initialDate: Date, duration: number, aplicationInterval: number): HorarioRemedio[] {
 
     const agenda: HorarioRemedio[] = [];
     const agora = new Date();
 
     // Calcula o horário final (data inicial + número de dias)
-    const dataFinal = new Date(dataInicial);
-    dataFinal.setDate(dataFinal.getDate() + repeticoes);
+    const dataFinal = new Date(initialDate);
+    dataFinal.setDate(dataFinal.getDate() + duration);
 
     // Gera os horários continuamente até o fim do período
-    let horarioAtual = new Date(dataInicial);
+    let horarioAtual = new Date(initialDate);
 
     while (horarioAtual < dataFinal) {
       // Determina o status baseado se o horário já passou
@@ -67,13 +89,17 @@ function useHandleAplicationRoutine(): UseHandleAplicationRoutineReturn {
       const countdown = calcularCountdown(horarioAtual, agora);
 
       agenda.push({
+        treatmentId: id,
+        doseId: uuidv4(),
+        medication,
+        dosage,
         horario: new Date(horarioAtual),
         status,
-        countdown
+        countdown,
       });
 
       // Adiciona o intervalo em horas
-      horarioAtual.setHours(horarioAtual.getHours() + intervaloHoras);
+      horarioAtual.setHours(horarioAtual.getHours() + aplicationInterval);
     }
 
     return agenda;
@@ -143,24 +169,10 @@ function useHandleAplicationRoutine(): UseHandleAplicationRoutineReturn {
       return agenda;
     } */
 
-  function todayList(lista: HorarioRemedio[]) {
-    const hoje = new Date();
-
-    return lista.filter(item => {
-      const dataItem = new Date(item.horario);
-      return (
-        dataItem.getFullYear() === hoje.getFullYear() &&
-        dataItem.getMonth() === hoje.getMonth() &&
-        dataItem.getDate() === hoje.getDate()
-      );
-    });
-  }
-
   return {
     gerarAgendaRemedios,
     handleNextRoutine,
     calcularProgressoTratamento
-    /* todayList */
   };
 }
 

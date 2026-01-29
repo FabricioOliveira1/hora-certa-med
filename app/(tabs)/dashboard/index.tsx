@@ -2,61 +2,55 @@ import DoseCard from '@/app/components/Cards/DoseCard';
 import Header from '@/app/components/Headers/DashboardHeader';
 import SummaryGrid from '@/app/components/SummaryGrid';
 import useTreatamentContext from '@/app/context/useTreatmentContext';
-import { MedicationDose } from '@/app/types/types';
-import React, { useCallback, useState } from 'react';
+import useHandleAplicationRoutine from '@/app/hooks/useHandleAplicationRoutine';
+import { HorarioRemedio, TreatmentProps } from '@/app/types/types';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-/*const [medication, setMedication] = useState('');
-  const [form, setForm] = useState<PharmaceuticalForm>('pill');
-  const [dosage, setDosage] = useState(1);
-  const [aplicationInterval, setAplicationInterval] = useState<Frequency>(12);
-  const [isContinuous, setIsContinuous] = useState(false);
-  const [isDailyUse, setIsDailyUse] = useState(false);
-  const [duration, setDuration] = useState(7);
-  const [hasAlarm, setHasAlarm] = useState(true);
-  const [notes, setNotes] = useState(''); */
-
-const INITIAL_DOSES: MedicationDose[] = [
-  {
-    id: '1',
-    name: 'Amoxicilina 500mg',
-    dosage: '1 comprimido',
-    info: 'Após refeição',
-    timeRemaining: '15 min',
-    type: 'pill',
-    status: 'pending',
-    accentColor: '#009183',
-  },
-  {
-    id: '2',
-    name: 'Losartana 50mg',
-    dosage: '1 comprimido',
-    timeRemaining: '2h 00m',
-    type: 'pill',
-    status: 'pending',
-    accentColor: '#9333ea',
-  },
-  {
-    id: '3',
-    name: 'Vitamina D',
-    dosage: '2 gotas',
-    timeRemaining: '4h 00m',
-    type: 'drops',
-    status: 'pending',
-    accentColor: '#16a34a',
-  }
-];
-
 export default function Today(): React.ReactElement {
 
-  const { treatment } = useTreatamentContext()
+  const { treatments, setTreatments } = useTreatamentContext()
+  const { handleNextRoutine } = useHandleAplicationRoutine()
+  const [nextDoses, setNextDoses] = useState<HorarioRemedio[]>([]);
 
-  const [doses, setDoses] = useState<MedicationDose[]>(INITIAL_DOSES);
+  useEffect(() => {
+     const updatedDoses: HorarioRemedio[] = treatments.map((treatment: TreatmentProps) => {
+      if (!treatment.nextAplication) {
+        return 
+      }
+      return ({
+        ...treatment.nextAplication,
+        form: treatment.form,
+      }) 
+    }) 
+    updatedDoses.sort((a, b) => a.horario.getTime() - b.horario.getTime());
+    
+    setNextDoses(updatedDoses);
+  }, [treatments]);
 
-  const handleTakeDose = useCallback((id: string) => {
-    setDoses(prev => prev.map(d => d.id === id ? { ...d, status: 'taken' } : d));
-  }, []);
+  const handleTakeDose = (id: string, doseId: string) => {
+
+    setTreatments((prevTreatments: TreatmentProps[]) => prevTreatments.map(treatment => {
+
+      if (treatment.treatmentId === id) {
+        console.log('treatment encontrado: ', treatment);
+        const updatedAgenda: HorarioRemedio[] = treatment.agenda.map(dose =>
+          dose.doseId === doseId ? { ...dose, status: 'tomado' } : dose
+        );
+        
+        const nextAplication = handleNextRoutine(updatedAgenda);
+
+        return {
+          ...treatment,
+          agenda: updatedAgenda,
+          nextAplication: nextAplication
+        };
+      }
+      return treatment;
+    }));
+  };
+
 
   const handleDelayDose = useCallback((id: string) => {
     console.log(`Delayed dose ${id}`);
@@ -68,6 +62,7 @@ export default function Today(): React.ReactElement {
       <Header />
       <ScrollView style={styles.cardContainer}>
         {/* <AdherenceCard lista={treatment.agenda} /> */}
+
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Próximas Doses</Text>
           <TouchableOpacity>
@@ -75,20 +70,20 @@ export default function Today(): React.ReactElement {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.list}>
-          {doses.map((dose) => (
+         <View style={styles.list}>
+          {nextDoses.map((dose) => (
             <DoseCard
-              key={dose.id}
+              key={dose.doseId}
               dose={dose}
               onTake={handleTakeDose}
               onDelay={handleDelayDose}
             />
           ))}
-        </View>
+        </View> 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Resumo de Saude</Text>
         </View>
-          <SummaryGrid />
+        <SummaryGrid />
       </ScrollView>
     </SafeAreaView>
   )

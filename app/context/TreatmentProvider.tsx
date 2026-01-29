@@ -15,17 +15,10 @@ import { TreatmentProps } from "../types/types";
 } */
 
 interface TreatmentContextType {
-/*   onConsumingMedicine: (args: { name: string; routineId: number }) => void;
-  onDeleteTreatment: (id: number) => void; */
-  adicionarTratamento: (treatmentData: TreatmentProps) => void /* (args: {
-    name: string;
-    initialDate: Date;
-    interval: number;
-    amount: number;
-  }) => Promise<void>; */
-/*   setTreatment: React.Dispatch<React.SetStateAction<Treatment[]>>;
-list: any[]; */
-treatments: TreatmentProps[];
+  onDeleteTreatment: (id: string) => void;
+  adicionarTratamento: (treatmentData: TreatmentProps) => void; 
+  setTreatments: React.Dispatch<React.SetStateAction<TreatmentProps[]>>;
+  treatments: TreatmentProps[];
 }
 
 
@@ -36,7 +29,7 @@ export default function TreatmentProvider({ children }: { children: React.ReactN
   const [treatments, setTreatments] = useState<TreatmentProps[]>([]);
   /*   const [list, setList] = useState<any[]>([])
    */
-  const { gerarAgendaRemedios, handleNextRoutine, calcularProgressoTratamento} = useHandleAplicationRoutine()
+  const { gerarAgendaRemedios, handleNextRoutine, calcularProgressoTratamento } = useHandleAplicationRoutine()
 
   /*   useEffect(() => {
       sincronizaTratamentos(treatment)
@@ -70,9 +63,10 @@ export default function TreatmentProvider({ children }: { children: React.ReactN
       notes,
       initialDate,
     } = treatmentData;
-    const id = uuidv4();
+    const treatmentId = uuidv4();
 
-    const agenda = gerarAgendaRemedios(id, medication, dosage, initialDate, duration, aplicationInterval);
+
+    const agenda = gerarAgendaRemedios(treatmentId, medication, dosage, initialDate, duration, aplicationInterval);
     const nextAplication = handleNextRoutine(agenda);
     const progressBar = calcularProgressoTratamento(initialDate, duration);
 
@@ -91,7 +85,7 @@ export default function TreatmentProvider({ children }: { children: React.ReactN
     const tratamento: TreatmentProps[] = [
       ...treatments,
       {
-        id: id,
+        treatmentId: treatmentId,
         medication: medication,
         form: form,
         dosage: dosage,
@@ -107,7 +101,6 @@ export default function TreatmentProvider({ children }: { children: React.ReactN
         progressBar: progressBar
       }
     ]
-    console.log("treatment depois de iterar: ", tratamento)
     setTreatments(tratamento);
     /*
           setTreatment(tratamento)
@@ -118,41 +111,17 @@ export default function TreatmentProvider({ children }: { children: React.ReactN
         } */
   }
 
-  /*  const onConsumingMedicine = ({ name, routineId }: { name: string; routineId: number }) => {
- 
-     const updatedTreatments = treatment.map(item => {
-       if (item.name !== name) {
-         return item;
-       } else {
- 
-         const updatedAplicationRoutine = item.aplicationRoutine.filter((element: any) => element.routineId !== routineId)
- 
-         return {
-           ...item,
-           amount: item.amount - 1,
-           aplicationRoutine: updatedAplicationRoutine,
-           nextAplication: handleNextRoutine(updatedAplicationRoutine),
-           today: todayList(updatedAplicationRoutine)
-         };
-       }
- 
-     })
- 
-     const treatmentfiltered = updatedTreatments.filter(item => item.amount > 0)
-     setTreatment(treatmentfiltered)
-   } */
-
-  /*  const onDeleteTreatment = (id: number) => {
-     const updatedTreatment = treatment.filter(treatment => treatment.treatmentId !== id)
-     setTreatment(updatedTreatment)
-   } */
+  const onDeleteTreatment = (id: string) => {
+    const updatedTreatment = treatments.filter(treatment => treatment.treatmentId !== id)
+    setTreatments(updatedTreatment)
+  }
 
   return (
     <TreatmentContext.Provider value={{
-  /* onConsumingMedicine, */
-/*   onDeleteTreatment,
- */  adicionarTratamento,
-     treatments
+      onDeleteTreatment,
+      adicionarTratamento,
+      setTreatments,
+      treatments
     }}>
       {children}
     </TreatmentContext.Provider>
